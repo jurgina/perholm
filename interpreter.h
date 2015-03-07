@@ -11,14 +11,14 @@
 
 class InterPreter {
 public:
-	InterPreter(Database& data): db(data) {}
+	InterPreter(DataBase& data): db(data) {}
 	/* Gets an message from the client, interprets it and does stuff with it and sends back the r
 		the results */
 	std::string interpret(const std::string& message);
 
 
 private:
-	Database& db;
+	DataBase& db;
 
 	/* Returns the message from the list newsgroup command */
 	std::string messageListNewsGroups(const std::istream& message);
