@@ -10,7 +10,7 @@ class memoryDB: public DataBase {
 public:
 	memoryDB();
 	 ~DataBase();
-	 std::vector<std::string> listNewsGroups();
+	  std::vector<pair<string,int>> listNewsGroups();
 	 bool createNewsGroup(std::string name);
 	 bool deleteNewsGroup(std::string groupID);
 	 std::vector<Article> listArticles(std::string groupID) ;
@@ -20,6 +20,7 @@ public:
 
 private:
 	map::multimap<std::string,article::Article> db;
+	map::vector<string> groupIDs;
 };
 
 #endif
