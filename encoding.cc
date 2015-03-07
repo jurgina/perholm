@@ -48,7 +48,7 @@ string convertStringPToString(const istringstream& message){
 	message >> c;
 	char N;
 	message >> N;			//N
-	for (char i = 0; i != N; ++i) {
+	for (size_t i = 0; i != N; ++i) {
 		message >> c;
 		s += c;
 	}
