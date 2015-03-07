@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include <istream>
+#include <sstream>
 #include "database.h"
 #include "protocol.h"
 #include "encoding.h"
@@ -9,7 +9,7 @@
 using namespace std;
 
 string Interpreter::interpret(const std::string& message){
-	istream input(message);
+	istringstream input(message);
 	char command;
 	input >> command;
 	switch(command){
@@ -32,23 +32,23 @@ string Interpreter::interpret(const std::string& message){
 }
 
 /* Returns the message from the list newsgroup command */
-std::string Interpreter::messageListNewsGroups(const istream& message){
+std::string Interpreter::messageListNewsGroups(const istringstream& message){
 	//std::vector<string> newsgroups = db.listNewsGroups();
 	return "Simon fixar ";
 }
 
 /* Returns the message from the create newsgroup command */
-std::string Interpreter::messageCreateNewsGroup(const istream& message){
+std::string Interpreter::messageCreateNewsGroup(const istringstream& message){
 	return "";
 }
 
 /* Returns the message from the delete newsgroup command */
-std::string Interpreter::messageDeleteNewsGroups(const istream& message){
+std::string Interpreter::messageDeleteNewsGroups(const istringstream& message){
 	return "";
 }
 
 /* Returns the message from the list articles command */
-std::string Interpreter::messageListArticles(const istream& message){
+std::string Interpreter::messageListArticles(const istringstream& message){
 	istream input(message);
 	char c;
 	input.get(c); 	//c = Par_Num
@@ -78,26 +78,36 @@ std::string Interpreter::messageListArticles(const istream& message){
 }
 
 /* Returns the message from the create article command */
-std::string Interpreter::messageCreateArticle(const istream& message){
+std::string Interpreter::messageCreateArticle(const istringstream& message){
 	string response;
 	char c;
 	char groupID;
 	message >> c;			// Par_num
 	message >> groupID;		// N
 
-	//Collects title
-	string title;
-	message >> c;
-	message >> c;			//N
-	for (char i = 0; i != c; ++i) {
-		message >> c;
-		title += c;
+	string title = convertStringPToString(message);
+	string author = convertStringPToString(message);
+	string text = convertStringPToString(message);
+	bool success = db.createArticle(groupID, title, author, text);
+
+	//write response to client
+	response += Protocol.ANS_CREATE_ART;
+	response += ' ';
+	if(success){
+		response += Protocol.ANS_ACK;
+		response += ' ';
+	}else{
+		response += Protocol.ANS_NAK;
+		response += ' ';
+		response += Protocol.ERR_NG_DOES_NOT_EXIST;
+		response += ' ';
 	}
-	return "";
+	response += Protocol.ANS_END;
+	return response;
 }
 
 /* Returns the message from the delete article command */
-std::string Interpreter::messageDeleteArticle(const istream& message){
+std::string Interpreter::messageDeleteArticle(const istringstream& message){
 	return "";
 }
 

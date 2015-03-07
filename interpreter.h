@@ -4,7 +4,7 @@
 
 #include <string>
 #include <iostream>
-#include <istream>
+#include <sstream>
 #include "database.h"
 #include "protocol.h"
 #include "encoding.h"
@@ -21,22 +21,22 @@ private:
 	DataBase& db;
 
 	/* Returns the message from the list newsgroup command */
-	std::string messageListNewsGroups(const std::istream& message);
+	std::string messageListNewsGroups(const std::istringstream& message);
 
 	/* Returns the message from the create newsgroup command */
-	std::string messageCreateNewsGroup(const std::istream& message);
+	std::string messageCreateNewsGroup(const std::istringstream& message);
 
 	/* Returns the message from the delete newsgroup command */
-	std::string messageDeleteNewsGroups(const std::istream& message);
+	std::string messageDeleteNewsGroups(const std::istringstream& message);
 
 	/* Returns the message from the list articles command */
-	std::string messageListArticles(const std::istream& message);
+	std::string messageListArticles(const std::istringstream& message);
 
 	/* Returns the message from the create article command */
-	std::string messageCreateArticle(const std::istream& message);
+	std::string messageCreateArticle(const std::istringstream& message);
 
 	/* Returns the message from the delete article command */
-	std::string messageDeleteArticle(const std::istream& message);
+	std::string messageDeleteArticle(const std::istringstream& message);
 
 };
 

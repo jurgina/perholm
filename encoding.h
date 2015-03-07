@@ -19,4 +19,7 @@ std::string convertStringToStringP(const std::string& s);
 /* Converts a number to num_p format */
 std::string convertNumberToNumP(int num);
 
+/* Converts a string_p to string format */
+std::string convertStringPToString(const std::istringstream& message){
+
 #endif
