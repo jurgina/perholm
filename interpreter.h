@@ -8,3 +8,20 @@
 	the results */
 std::string interpret(const std::string& message);
 
+/* Returns the message from the list newsgroup command */
+std::string messageListNewsGroups(const std::string& message);
+
+/* Returns the message from the create newsgroup command */
+std::string messageCreateNewsGroup(const std::string& message);
+
+/* Returns the message from the delete newsgroup command */
+std::string messageDeleteNewsGroups(const std::string& message);
+
+/* Returns the message from the list articles command */
+std::string messageListArticles(const std::string& message);
+
+/* Returns the message from the create article command */
+std::string messageCreateArticle(const std::string& message);
+
+/* Returns the message from the delete article command */
+std::string messageDeleteArticle(const std::string& message);
