@@ -11,6 +11,9 @@ using  namespace std,map;
  memoryDB::memoryDB(){
 	 
 	 }
+	  memoryDB::~memoryDB(){
+	 
+	 }
  std::vector<pair<string,int>> memoryDB::listNewsGroups(){
 		vector<string> tmp;
 		vector<pair<string,int>> v;
