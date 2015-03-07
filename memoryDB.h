@@ -11,13 +11,13 @@ class memoryDB: public DataBase {
 public:
 	memoryDB();
 	 ~memoryDB();
-	  std::vector<std::pair<std::string,int>> listNewsGroups();
+	 std::vector<std::string> listNewsGroups();
 	 bool createNewsGroup(std::string name);
-	 bool deleteNewsGroup(std::string groupID);
-	 std::vector<Article> listArticles(std::string groupID) ;
-	 bool createArticle(std::string groupID,std::string title,std::string author, std::string text);
-	 bool deleteArticle(std::string groupID,std::string articleID);
-	 Article getArticle(std::string groupID,std::string articleID) ;
+	 bool deleteNewsGroup( char groupID);
+	 std::vector<Article> listArticles(char groupID) ;
+	 bool createArticle(char groupID,std::string title,std::string author, std::string text);
+	 bool deleteArticle(char groupID,char articleID);
+	 Article getArticle(char groupID, char articleID) ;
 
 private:
 	std::multimap<std::string,Article> db;

@@ -9,12 +9,14 @@
 
 class Article {
 public:
-	Article(std::string authorIn ,std::string titleIn ,std::string textIn) : author(authorIn), title(titleIn), text(textIn){};
+	Article(std::string authorIn ,std::string titleIn ,std::string textIn, char ID) : author(authorIn), title(titleIn), text(textIn), id(ID){};
+	char getID(){return id;};
 	std::string getAuthor(){return author;};
 	std::string getTitle(){return title;};
 	std::string getText(){return text;};
 	
 private:
+	char id;
 	std::string author;
 	std::string title;
 	std::string text;

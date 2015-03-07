@@ -3,7 +3,7 @@
 #include "memoryDB.h"
 #include <map>
 #include <string>
-
+#include <cstddef>
 #include <vector>
 #include  <algorithm>
 using  namespace std;
@@ -11,77 +11,74 @@ using  namespace std;
  memoryDB::memoryDB(){
 	 
 	 }
+
 	  memoryDB::~memoryDB(){
 	 
 	 }
- std::vector<pair<string,int>> memoryDB::listNewsGroups(){
-		vector<string> tmp;
-		vector<pair<string,int>> v;
-		unique_copy(db.first,db.last,tmp.first)[](const pair<char,int> &entry1,
-			const pair<char,int> &entry2) {
-				return (entry1.first == entry2.first);
-			}
-		);
-			std::vector<int>::iterator found;
-		for (auto it = tmp.begin(); it != tmp.end(); ++it) {
-			found=find (tmp.begin(), tmp.end(), it);
-			if(found != tmp.end()){
-				v.insert(pair<string,int>(it,found-tmp.begin);
-			}
-		}
-		return v;
-	       
+
+ vector<string> memoryDB::listNewsGroups(){
+		return groupIDs;   
 	 }
  bool memoryDB::createNewsGroup(std::string name){
-		db.insert(name,nullptr);
-		groupIDs.insert(name);
+	auto it= find(groupIDs.begin(), groupIDs.end(),name);
+	if(it==groupIDs.end()){
+			groupIDs.push_back(name);
+		return true;
+	}
+		return false;
 	 }
- bool memoryDB::deleteNewsGroup(std::string groupID){
-	 db.erase(groupIDs.get(groupID));
+ bool memoryDB::deleteNewsGroup(char groupID){
+	 db.erase(groupIDs[groupID]);
 	 return true;
 	 }
-std::vector<Article> memoryDB::listArticles(std::string groupID) {
-	 	vector<Article> tmp;
-		string gname=groupIDs.get(groupID);
-		copy(db.first,db.last,tmp.first)[](const pair<char,int> &entry1) {
+std::vector<Article> memoryDB::listArticles(char groupID) {
+		string gname=groupIDs[groupID];
+		auto itpair = db.equal_range(gname);
+		vector<Article> tmp(itpair.first, itpair.second);
+/*
+		copy(db.begin(),db.end(),tmp.begin(), [gname](const pair<string,Article> &entry1) {
 				return (entry1.first == gname);
 			}
 		);
-			
+		vector<Article> tmp2;
+		for (auto itr=tmp.begin();itr!=tmp.end(); itr++){
+			tmp2.push_back(itr.)
+		}
+	*/		
 		return tmp;
 	 }
- bool memoryDB::createArticle(std::string groupID,std::string title,std::string author, std::string text){
-	 string gname=groupIDs.get(groupID);
-	 db.insert(pair(gname,new Articel(title,author,text)));
+ bool memoryDB::createArticle(char groupID, string title,string author, string text){
+	 string gname=groupIDs[groupID];
+	 db.insert(pair<string, Article>(gname, Article(title,author,text, db.count(gname))));
 	 return true;
 	 }
- bool memoryDB::deleteArticle(std::string groupID,std::string articleID){
-	 typedef multimap<char, int>::iterator iterator;
-	 	 string gname=groupIDs.get(groupID);
+ bool memoryDB::deleteArticle(char groupID, char articleID){
+	 typedef multimap<string, Article>::iterator iterator;
+	 	 string gname=groupIDs[groupID];
 
-	std::pair<iterator, iterator> iterpair = mymap.equal_range(gname);
-	 
+	auto iterpair = db.equal_range(gname);
+
 	 iterator it = iterpair.first;
 	for (; it != iterpair.second; ++it) {
-	    if (it->second == articleID) { 
-		mymap.erase(it);
+	    if (it->second.getID() == articleID) { 
+		db.erase(it);
 		return true;
 	    }
 	}
 	return false;
 	 }
- article:Article memoryDB::getArticle(std::string groupID,std::string articleID) {
-	typedef multimap<char, int>::iterator iterator;
-	  string gname=groupIDs.get(groupID);
-	std::pair<iterator, iterator> iterpair = mymap.equal_range(groupID);
+ Article& memoryDB::getArticle(char groupID,char articleID) {
+	typedef multimap<string, Article>::iterator iterator;
+	  string gname=groupIDs[groupID];
+	std::pair<iterator, iterator> iterpair = db.equal_range(gname);
 	 
 	 iterator it = iterpair.first;
 	for (; it != iterpair.second; ++it) {
-	    if (it->second == articleID) { 
-		return it->secound;
+	    if (it->second.getID() == articleID) { 
+		return it->second;
 	    }
 	}
 	return nullptr;
-	 }
+	}
 
 
