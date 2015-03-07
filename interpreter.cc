@@ -5,6 +5,7 @@
 #include "protocol.h"
 #include "encoding.h"
 #include "article.h"
+#include "interpreter.h"
 
 using namespace std;
 
@@ -25,6 +26,8 @@ string Interpreter::interpret(const std::string& message){
 			return messageCreateArticle(message);
 		case Protocol::COM_DELETE_ART: 
 			return messageDeleteArticle(message);
+		case Protocol::COM_GET_ART: 
+			return messageGetArticle(message);
 		default: cout << "Something is wrong in interpret server side, wrong command code" << endl;
 			break; 
 	}
@@ -179,9 +182,41 @@ string Interpreter::messageDeleteArticle(const istringstream& message){
 	}else if(success == 0){
 		response += Protocol::ANS_NAK;
 		response += ' ';
-		response += Protocol::ERR_NG_ART_DOES_NOT_EXIST;
+		response += Protocol::ERR_ART_DOES_NOT_EXIST;
 	}
 	response += ' ';
+	response += Protocol::ANS_END;
+	return response;
+}
+
+/* Returns the message from the get article command */
+string Interpreter::messageGetArticle(const istringstream& message){
+	char c;
+	char groupID;
+	message >> c;			// Par_num
+	message >> groupID;		// N
+	char articleID;
+	message >> c;
+	message >> articleID;
+	string response;
+	response += Protocol::ANS_GET_ART;
+	response += ' ';
+
+	Article* article = db.getArticle(groupID,articleID);
+	if (article != nullptr) {	
+		response += Protocol::ANS_ACK;
+		response += ' ';
+		response += convertStringToStringP(article.getTitle());
+		response += ' ';
+		response += convertStringToStringP(article.getAuthor());
+		response += ' ';
+		response += convertStringToStringP(article.getText());
+	} else {
+		response += ANS_NAK;
+		//fixa fall h'r!!!
+	}
+	response += ' ';
+
 	response += Protocol::ANS_END;
 	return response;
 }

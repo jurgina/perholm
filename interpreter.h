@@ -38,6 +38,9 @@ private:
 	/* Returns the message from the delete article command */
 	std::string messageDeleteArticle(const std::istringstream& message);
 
+	/* Returns the message from the get article command */
+	std::string messageGetArticle(const std::istringstream& message);
+
 };
 
 #endif
