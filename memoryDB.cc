@@ -34,7 +34,11 @@ using  namespace std;
 std::vector<Article> memoryDB::listArticles(char groupID) {
 		string gname=groupIDs[groupID];
 		auto itpair = db.equal_range(gname);
-		vector<Article> tmp(itpair.first, itpair.second);
+		vector<pair<string,Article>> tmp(itpair.first, itpair.second);
+		vector<Article> art;
+		for(auto itr=tmp.begin();itr!=tmp.end();++itr){
+			art.push_back((*itr).second);
+		}
 /*
 		copy(db.begin(),db.end(),tmp.begin(), [gname](const pair<string,Article> &entry1) {
 				return (entry1.first == gname);
@@ -45,27 +49,31 @@ std::vector<Article> memoryDB::listArticles(char groupID) {
 			tmp2.push_back(itr.)
 		}
 	*/		
-		return tmp;
+		return art;
 	 }
  bool memoryDB::createArticle(char groupID, string title,string author, string text){
 	 string gname=groupIDs[groupID];
 	 db.insert(pair<string, Article>(gname, Article(title,author,text, db.count(gname))));
 	 return true;
 	 }
- bool memoryDB::deleteArticle(char groupID, char articleID){
+ int memoryDB::deleteArticle(char groupID, char articleID){
 	 typedef multimap<string, Article>::iterator iterator;
 	 	 string gname=groupIDs[groupID];
 
 	auto iterpair = db.equal_range(gname);
-
+	if(iterpair.first==iterpair.second){
+		return 1;
+	}
 	 iterator it = iterpair.first;
-	for (; it != iterpair.second; ++it) {
+	
+	 for (; it != iterpair.second; ++it) {
 	    if (it->second.getID() == articleID) { 
 		db.erase(it);
-		return true;
+		return 2;
 	    }
 	}
-	return false;
+	
+	return 0;
 	 }
  Article* memoryDB::getArticle(char groupID,char articleID) {
 	typedef multimap<string, Article>::iterator iterator;
