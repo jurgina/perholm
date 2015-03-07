@@ -29,8 +29,8 @@ using  namespace std,map;
 	 db.erase(groupID);
 	 return true;
 	 }
-std::vector<string> memoryDB::listArticles(std::string groupID) {
-	 	vector<string> tmp;
+std::vector<Article> memoryDB::listArticles(std::string groupID) {
+	 	vector<Article> tmp;
 		copy(db.first,db.last,tmp.first)[](const pair<char,int> &entry1) {
 				return (entry1.first == groupID);
 			}
