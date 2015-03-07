@@ -33,18 +33,20 @@ string Interpreter::interpret(const std::string& message){
 
 /* Returns the message from the list newsgroup command */
 string Interpreter::messageListNewsGroups(const istringstream& message){
-	vector<std::pair<std::string,int>> newsgroups = db.listNewsGroups();
+	vector<std::string> newsgroups = db.listNewsGroups();
 	string response;
 	response += Protocol::ANS_LIST_NG;
 	response += ' ';
 	if(newsgroups != nullptr){
 		response += convertNumberToNumP(newsgroups.size());
 		response += ' ';
+		size_t i = 0;
 		for(auto p: newsgroups){
-		response += convertNumberToNumP(p.second);
-		response += ' ';
-		response += convertStringToStringP(p.first);
-		response += ' ';	
+			response += convertNumberToNumP(i);
+			response += ' ';
+			response += convertStringToStringP(p);
+			response += ' ';	
+			++i;
 		}
 	}else{
 		response += convertNumberToNumP(0);
