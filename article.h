@@ -17,10 +17,10 @@ public:
 	std::string getText(){return text;};
 	
 private:
-	char id;
 	std::string author;
 	std::string title;
 	std::string text;
+	char id;
 };
 
 #endif
