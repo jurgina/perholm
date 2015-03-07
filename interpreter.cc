@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <istream>
 #include "database.h"
 #include "protocol.h"
 #include "encoding.h"
