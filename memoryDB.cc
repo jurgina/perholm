@@ -29,11 +29,10 @@ using  namespace std,map;
 	 db.erase(groupID);
 	 return true;
 	 }
- std::string memoryDB::listArticles(std::string groupID) {
+std::vector<string> memoryDB::listArticles(std::string groupID) {
 	 	vector<string> tmp;
-		unique_copy(db.first,db.last,tmp.first)[](const pair<char,int> &entry1,
-			const pair<char,int> &entry2) {
-				return (entry1.first == entry2.first);
+		copy(db.first,db.last,tmp.first)[](const pair<char,int> &entry1) {
+				return (entry1.first == groupID);
 			}
 		);
 			
