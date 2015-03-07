@@ -79,6 +79,20 @@ std::string Interpreter::messageListArticles(const istream& message){
 
 /* Returns the message from the create article command */
 std::string Interpreter::messageCreateArticle(const istream& message){
+	string response;
+	char c;
+	char groupID;
+	message >> c;			// Par_num
+	message >> groupID;		// N
+
+	//Collects title
+	string title;
+	message >> c;
+	message >> c;			//N
+	for (char i = 0; i != c; ++i) {
+		message >> c;
+		title += c;
+	}
 	return "";
 }
 
