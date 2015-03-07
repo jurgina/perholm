@@ -67,7 +67,7 @@ std::vector<Article> memoryDB::listArticles(char groupID) {
 	}
 	return false;
 	 }
- Article& memoryDB::getArticle(char groupID,char articleID) {
+ Article* memoryDB::getArticle(char groupID,char articleID) {
 	typedef multimap<string, Article>::iterator iterator;
 	  string gname=groupIDs[groupID];
 	std::pair<iterator, iterator> iterpair = db.equal_range(gname);
@@ -75,7 +75,7 @@ std::vector<Article> memoryDB::listArticles(char groupID) {
 	 iterator it = iterpair.first;
 	for (; it != iterpair.second; ++it) {
 	    if (it->second.getID() == articleID) { 
-		return it->second;
+		return &(it->second);
 	    }
 	}
 	return nullptr;

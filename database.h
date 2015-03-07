@@ -18,7 +18,7 @@ public:
 	virtual std::vector<Article> listArticles(char groupID) = 0;
 	virtual bool createArticle(char groupID,std::string title,std::string author, std::string text) = 0;
 	virtual bool deleteArticle(char groupID,char articleID) = 0;
-	virtual Article& getArticle(char groupID,char articleID) = 0;
+	virtual Article* getArticle(char groupID,char articleID) = 0;
 };
 
 #endif
