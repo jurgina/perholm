@@ -14,4 +14,4 @@ std::string readString(Connection::Connection& c);
 std::string convertStringToStringP(const string& s);
 
 /* Converts a number to num_p format */
-std::string convertNumberToNumP(const int num);
+std::string convertNumberToNumP(int num);
