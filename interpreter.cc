@@ -37,10 +37,14 @@ std::string Interpreter::messageListNewsGroups(const istream& message){
 }
 
 /* Returns the message from the create newsgroup command */
-std::string Interpreter::messageCreateNewsGroup(const istream& message);
+std::string Interpreter::messageCreateNewsGroup(const istream& message){
+	return "";
+}
 
 /* Returns the message from the delete newsgroup command */
-std::string Interpreter::messageDeleteNewsGroups(const istream& message);
+std::string Interpreter::messageDeleteNewsGroups(const istream& message){
+	return "";
+}
 
 /* Returns the message from the list articles command */
 std::string Interpreter::messageListArticles(const istream& message){
@@ -74,10 +78,10 @@ std::string Interpreter::messageListArticles(const istream& message){
 
 /* Returns the message from the create article command */
 std::string Interpreter::messageCreateArticle(const istream& message){
-
+	return "";
 }
 
 /* Returns the message from the delete article command */
 std::string Interpreter::messageDeleteArticle(const istream& message){
-
+	return "";
 }
