@@ -1,5 +1,5 @@
 #include <string>
-#include <shared_ptr>
+#include <memory>
 #include "encoding.h"
 #include "connection.h"
 #include "protocol.h"
