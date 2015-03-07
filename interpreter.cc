@@ -13,17 +13,17 @@ string Interpreter::interpret(const std::string& message){
 	char command;
 	input >> command;
 	switch(command){
-		case Protocol.COM_LIST_NG: 
+		case Protocol::COM_LIST_NG: 
 			return messageListNewsGroups(message);
-		case Protocol.COM_CREATE_NG: 
+		case Protocol::COM_CREATE_NG: 
 			return messageCreateNewsGroups(message);
-		case Protocol.COM_DELETE_NG: 
+		case Protocol::COM_DELETE_NG: 
 			return messageDeleteNewsGroups(message);
-		case Protocol.COM_LIST_ART: 
+		case Protocol::COM_LIST_ART: 
 			return messageListArticles(message);
-		case Protocol.COM_CREATE_ART: 
+		case Protocol::COM_CREATE_ART: 
 			return messageCreateArticle(message);
-		case Protocol.COM_DELETE_ART: 
+		case Protocol::COM_DELETE_ART: 
 			return messageDeleteArticle(message);
 		default: cout << "Something is wrong in interpret server side, wrong command code" << endl;
 			break; 
@@ -32,33 +32,36 @@ string Interpreter::interpret(const std::string& message){
 }
 
 /* Returns the message from the list newsgroup command */
-std::string Interpreter::messageListNewsGroups(const istringstream& message){
-	//std::vector<string> newsgroups = db.listNewsGroups();
+string Interpreter::messageListNewsGroups(const istringstream& message){
+	vector<std::pair<std::string,int>> newsgroups = db.listNewsGroups();
+
+	string response;
+	response += Protocol::ANS_CREATE_NG;
 	return "Simon fixar ";
 }
 
 /* Returns the message from the create newsgroup command */
-std::string Interpreter::messageCreateNewsGroup(const istringstream& message){
+string Interpreter::messageCreateNewsGroup(const istringstream& message){
 	return "";
 }
 
 /* Returns the message from the delete newsgroup command */
-std::string Interpreter::messageDeleteNewsGroups(const istringstream& message){
+string Interpreter::messageDeleteNewsGroups(const istringstream& message){
 	return "";
 }
 
 /* Returns the message from the list articles command */
-std::string Interpreter::messageListArticles(const istringstream& message){
+string Interpreter::messageListArticles(const istringstream& message){
 	istream input(message);
 	char c;
 	input.get(c); 	//c = Par_Num
 	input.get(c);	//c = N
 	vector<Article> articles = db.listArticles(c);
 	string response;
-	response += Protocol.ANS_LIST_ART;
+	response += Protocol::ANS_LIST_ART;
 	response += ' ';
 	if (articles != nullptr) {		// If the newsgroup exists
-		response += Protocol.ANS_ACK;
+		response += Protocol::ANS_ACK;
 		response += ' ';
 		response += convertNumberToNumP(articles.size());
 		response += ' ';
@@ -69,16 +72,16 @@ std::string Interpreter::messageListArticles(const istringstream& message){
 		    response += ' ';
 		}
 	} else {						// If the newsgroup doesn't exist
-		response += Protocol.ANS_NAK;
+		response += Protocol::ANS_NAK;
 		response += ' ';
-		response += Protocol.ERR_NG_DOES_NOT_EXIST;
+		response += Protocol::ERR_NG_DOES_NOT_EXIST;
 	}
-	response += Protocol.ANS_END;
+	response += Protocol::ANS_END;
 	return response;
 }
 
 /* Returns the message from the create article command */
-std::string Interpreter::messageCreateArticle(const istringstream& message){
+string Interpreter::messageCreateArticle(const istringstream& message){
 	string response;
 	char c;
 	char groupID;
@@ -91,23 +94,23 @@ std::string Interpreter::messageCreateArticle(const istringstream& message){
 	bool success = db.createArticle(groupID, title, author, text);
 
 	//write response to client
-	response += Protocol.ANS_CREATE_ART;
+	response += Protocol::ANS_CREATE_ART;
 	response += ' ';
 	if(success){
-		response += Protocol.ANS_ACK;
+		response += Protocol::ANS_ACK;
 		response += ' ';
 	}else{
-		response += Protocol.ANS_NAK;
+		response += Protocol::ANS_NAK;
 		response += ' ';
-		response += Protocol.ERR_NG_DOES_NOT_EXIST;
+		response += Protocol::ERR_NG_DOES_NOT_EXIST;
 		response += ' ';
 	}
-	response += Protocol.ANS_END;
+	response += Protocol::ANS_END;
 	return response;
 }
 
 /* Returns the message from the delete article command */
-std::string Interpreter::messageDeleteArticle(const istringstream& message){
+string Interpreter::messageDeleteArticle(const istringstream& message){
 	return "";
 }
 
