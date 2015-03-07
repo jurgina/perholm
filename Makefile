@@ -17,10 +17,13 @@ CXXFLAGS += -g
 #CPPFLAGS =  -stdlib=libc++
 #CXXFLAGS += -stdlib=libc++
 
-all: libclientserver.a
+PROGS = testmain
+
+all: $(PROGS) #libclientserver.a
 
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
+testmain: memoryDB
 
 libclientserver.a: connection.o server.o
 	ar rv libclientserver.a  connection.o server.o

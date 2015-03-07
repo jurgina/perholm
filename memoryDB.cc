@@ -69,4 +69,3 @@ std::vector<Article> memoryDB::listArticles(std::string groupID) {
 	 }
 
 
-#endif
