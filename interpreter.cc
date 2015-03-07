@@ -34,25 +34,69 @@ string Interpreter::interpret(const std::string& message){
 /* Returns the message from the list newsgroup command */
 string Interpreter::messageListNewsGroups(const istringstream& message){
 	vector<std::pair<std::string,int>> newsgroups = db.listNewsGroups();
-
 	string response;
-	response += Protocol::ANS_CREATE_NG;
-	return "Simon fixar ";
+	response += Protocol::ANS_LIST_NG;
+	response += ' ';
+	if(newsgroups != nullptr){
+		response += convertNumberToNumP(newsgroups.size());
+		response += ' ';
+		for(auto p: newsgroups){
+		response += convertNumberToNumP(p.second);
+		response += ' ';
+		response += convertStringToStringP(p.first);
+		response += ' ';	
+		}
+	}else{
+		response += convertNumberToNumP(0);
+		response += ' ';
+	}
+	response += Protocol::ANS_END;
+	return response;
 }
 
 /* Returns the message from the create newsgroup command */
 string Interpreter::messageCreateNewsGroup(const istringstream& message){
-	return "";
+	string title = convertStringPToString(message);
+	bool success = db.createNewsGroup(title);
+	string response;
+	response += Protocol::ANS_CREATE_NG;
+	response += ' ';
+	
+	if(success){
+		response +=Protocol::ANS_ACK;
+	}else{
+		response +=Protocol::ANS_NAK;
+		response+=' ';
+		response +=Protocol::ERR_NG_ALREADY_EXIST;
+	}
+	response+=' ';
+	response +=Protocol::ANS_END;	
+
+	return response;
 }
 
 /* Returns the message from the delete newsgroup command */
 string Interpreter::messageDeleteNewsGroups(const istringstream& message){
-	return "";
+	string title = convertStringPToString(message);
+	bool success = db.deleteNewsGroup(title);
+	string response;
+	response += Protocol::ANS_DELETE_NG;
+	response += ' ';
+	
+	if(success){
+		response +=Protocol::ANS_ACK;
+	}else{
+		response +=Protocol::ANS_NAK;
+		response+=' ';
+		response +=Protocol::ERR_NG_DOES_NOT_EXIST;
+	}
+	response+=' ';
+	response +=Protocol::ANS_END;	
+	return response;
 }
 
 /* Returns the message from the list articles command */
 string Interpreter::messageListArticles(const istringstream& message){
-	istream input(message);
 	char c;
 	input.get(c); 	//c = Par_Num
 	input.get(c);	//c = N
@@ -111,6 +155,32 @@ string Interpreter::messageCreateArticle(const istringstream& message){
 
 /* Returns the message from the delete article command */
 string Interpreter::messageDeleteArticle(const istringstream& message){
-	return "";
+	char c;
+	char groupID;
+	message >> c;			// Par_num
+	message >> groupID;		// N
+	char articleID;
+	message >> c;
+	message >> articleID;
+
+	int success = db.deleteArticle(groupID,articleID);
+	string response;
+	response += Protocol::ANS_DELETE_ART;
+	response += ' ';
+	if(success == 2){
+		response += Protocol::ANS_ACK;
+	}else if(success == 1){
+		response += Protocol::ANS_NAK;
+		response += ' ';
+		response += Protocol::ERR_NG_DOES_NOT_EXIST;
+		
+	}else if(success == 0){
+		response += Protocol::ANS_NAK;
+		response += ' ';
+		response += Protocol::ERR_NG_ART_DOES_NOT_EXIST;
+	}
+	response += ' ';
+	response += Protocol::ANS_END;
+	return response;
 }
 
