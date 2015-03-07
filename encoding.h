@@ -2,6 +2,7 @@
 #define ENCODING_H
 
 #include <string>
+#include <shared_ptr>
 #include "connection.h"
 
 
