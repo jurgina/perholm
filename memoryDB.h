@@ -16,7 +16,7 @@ public:
 	 std::string listArticles(std::string groupID) ;
 	 bool createArticle(std::string groupID,std::string title,std::string author, std::string text);
 	 bool deleteArticle(std::string groupID,std::string articleID);
-	 article:Article getArticle(const HostName&) ;
+	 article:Article getArticle(std::string groupID,std::string articleID) ;
 
 private:
 	map::multimap<std::string,article::Article> db;
