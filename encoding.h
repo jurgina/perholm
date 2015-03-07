@@ -20,6 +20,6 @@ std::string convertStringToStringP(const std::string& s);
 std::string convertNumberToNumP(int num);
 
 /* Converts a string_p to string format */
-std::string convertStringPToString(const std::istringstream& message){
+std::string convertStringPToString(const std::istringstream& message);
 
 #endif
