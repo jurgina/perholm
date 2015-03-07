@@ -6,7 +6,7 @@
 
 #include <vector>
 #include  <algorithm>
-using  namespace std,map;
+using  namespace std;
 
  memoryDB::memoryDB(){
 	 

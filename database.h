@@ -7,6 +7,7 @@
 
 #include <string>
 #include <utility> 
+#include <vector>
 #include "article.h"
 class DataBase {
 public:

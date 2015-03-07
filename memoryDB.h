@@ -4,6 +4,7 @@
 #include "database.h"
 #include <map>
 #include <string>
+#include <vector>
 
 class memoryDB: public DataBase {
 	
