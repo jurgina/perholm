@@ -6,7 +6,7 @@
 #define DATABASE_H
 
 #include <string>
-
+#include <article.h>
 class DataBase {
 public:
 	virtual ~DataBase()=0;
@@ -16,7 +16,7 @@ public:
 	virtual std::string listArticles(std::string groupID) = 0;
 	virtual bool createArticle(std::string groupID,std::string title,std::string author, std::string text) = 0;
 	virtual bool deleteArticle(std::string groupID,std::string articleID) = 0;
-	virtual std::string getArticle(const HostName&) = 0;
+	virtual article:Article getArticle(const HostName&) = 0;
 };
 
 #endif
