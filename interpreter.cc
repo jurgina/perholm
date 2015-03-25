@@ -9,38 +9,14 @@
 
 using namespace std;
 
-string Interpreter::interpret(const std::string& message){
-	istringstream input(message);
-	char command;
-	input >> command;
-	switch(command){
-		case Protocol::COM_LIST_NG: 
-			return messageListNewsGroups(message);
-		case Protocol::COM_CREATE_NG: 
-			return messageCreateNewsGroups(message);
-		case Protocol::COM_DELETE_NG: 
-			return messageDeleteNewsGroups(message);
-		case Protocol::COM_LIST_ART: 
-			return messageListArticles(message);
-		case Protocol::COM_CREATE_ART: 
-			return messageCreateArticle(message);
-		case Protocol::COM_DELETE_ART: 
-			return messageDeleteArticle(message);
-		case Protocol::COM_GET_ART: 
-			return messageGetArticle(message);
-		default: cout << "Something is wrong in interpret server side, wrong command code" << endl;
-			break; 
-	}
-	return ":-( interpret\n";
-}
 
 /* Returns the message from the list newsgroup command */
-string Interpreter::messageListNewsGroups(const istringstream& message){
+string InterPreter::messageListNewsGroups(){
 	vector<std::string> newsgroups = db.listNewsGroups();
 	string response;
 	response += Protocol::ANS_LIST_NG;
 	response += ' ';
-	if(newsgroups != nullptr){
+	if(newsgroups.size() != 0){
 		response += convertNumberToNumP(newsgroups.size());
 		response += ' ';
 		size_t i = 0;
@@ -60,7 +36,7 @@ string Interpreter::messageListNewsGroups(const istringstream& message){
 }
 
 /* Returns the message from the create newsgroup command */
-string Interpreter::messageCreateNewsGroup(const istringstream& message){
+string InterPreter::messageCreateNewsGroup(istringstream& message){
 	string title = convertStringPToString(message);
 	bool success = db.createNewsGroup(title);
 	string response;
@@ -72,7 +48,7 @@ string Interpreter::messageCreateNewsGroup(const istringstream& message){
 	}else{
 		response +=Protocol::ANS_NAK;
 		response+=' ';
-		response +=Protocol::ERR_NG_ALREADY_EXIST;
+		response +=Protocol::ERR_NG_ALREADY_EXISTS;
 	}
 	response+=' ';
 	response +=Protocol::ANS_END;	
@@ -81,8 +57,8 @@ string Interpreter::messageCreateNewsGroup(const istringstream& message){
 }
 
 /* Returns the message from the delete newsgroup command */
-string Interpreter::messageDeleteNewsGroups(const istringstream& message){
-	string title = convertStringPToString(message);
+string InterPreter::messageDeleteNewsGroup(istringstream& message){
+	int title = convertNumPToNum(message);
 	bool success = db.deleteNewsGroup(title);
 	string response;
 	response += Protocol::ANS_DELETE_NG;
@@ -101,15 +77,13 @@ string Interpreter::messageDeleteNewsGroups(const istringstream& message){
 }
 
 /* Returns the message from the list articles command */
-string Interpreter::messageListArticles(const istringstream& message){
-	char c;
-	input.get(c); 	//c = Par_Num
-	input.get(c);	//c = N
+string InterPreter::messageListArticles(istringstream& message){
+	int c = convertNumPToNum(message);
 	vector<Article> articles = db.listArticles(c);
 	string response;
 	response += Protocol::ANS_LIST_ART;
 	response += ' ';
-	if (articles != nullptr) {		// If the newsgroup exists
+	if (articles.size() != 0) {		// If the newsgroup exists
 		response += Protocol::ANS_ACK;
 		response += ' ';
 		response += convertNumberToNumP(articles.size());
@@ -130,13 +104,9 @@ string Interpreter::messageListArticles(const istringstream& message){
 }
 
 /* Returns the message from the create article command */
-string Interpreter::messageCreateArticle(const istringstream& message){
+string InterPreter::messageCreateArticle(istringstream& message){
 	string response;
-	char c;
-	char groupID;
-	message >> c;			// Par_num
-	message >> groupID;		// N
-
+	int groupID = convertNumPToNum(message);
 	string title = convertStringPToString(message);
 	string author = convertStringPToString(message);
 	string text = convertStringPToString(message);
@@ -159,15 +129,9 @@ string Interpreter::messageCreateArticle(const istringstream& message){
 }
 
 /* Returns the message from the delete article command */
-string Interpreter::messageDeleteArticle(const istringstream& message){
-	char c;
-	char groupID;
-	message >> c;			// Par_num
-	message >> groupID;		// N
-	char articleID;
-	message >> c;
-	message >> articleID;
-
+string InterPreter::messageDeleteArticle(istringstream& message){
+	int groupID = convertNumPToNum(message);
+	int articleID = convertNumPToNum(message);
 	int success = db.deleteArticle(groupID,articleID);
 	string response;
 	response += Protocol::ANS_DELETE_ART;
@@ -190,29 +154,25 @@ string Interpreter::messageDeleteArticle(const istringstream& message){
 }
 
 /* Returns the message from the get article command */
-string Interpreter::messageGetArticle(const istringstream& message){
-	char c;
-	char groupID;
-	message >> c;			// Par_num
-	message >> groupID;		// N
-	char articleID;
-	message >> c;
-	message >> articleID;
+string InterPreter::messageGetArticle(istringstream& message){
+	int groupID = convertNumPToNum(message);
+	int articleID = convertNumPToNum(message);	
 	string response;
 	response += Protocol::ANS_GET_ART;
 	response += ' ';
 
 	Article* article = db.getArticle(groupID,articleID);
+
 	if (article != nullptr) {	
 		response += Protocol::ANS_ACK;
 		response += ' ';
-		response += convertStringToStringP(article.getTitle());
+		response += convertStringToStringP(article->getTitle());
 		response += ' ';
-		response += convertStringToStringP(article.getAuthor());
+		response += convertStringToStringP(article->getAuthor());
 		response += ' ';
-		response += convertStringToStringP(article.getText());
+		response += convertStringToStringP(article->getText());
 	} else {
-		response += ANS_NAK;
+		response += Protocol::ANS_NAK;
 		//fixa fall h'r!!!
 	}
 	response += ' ';
@@ -221,3 +181,27 @@ string Interpreter::messageGetArticle(const istringstream& message){
 	return response;
 }
 
+string InterPreter::interpret(const std::string& message){
+	istringstream input(message);
+	char command;
+	input >> command;
+	switch(command){
+		case Protocol::COM_LIST_NG: 
+			return messageListNewsGroups();
+		case Protocol::COM_CREATE_NG: 
+			return messageCreateNewsGroup(input);
+		case Protocol::COM_DELETE_NG: 
+			return messageDeleteNewsGroup(input);
+		case Protocol::COM_LIST_ART: 
+			return messageListArticles(input);
+		case Protocol::COM_CREATE_ART: 
+			return messageCreateArticle(input);
+		case Protocol::COM_DELETE_ART: 
+			return messageDeleteArticle(input);
+		case Protocol::COM_GET_ART: 
+			return messageGetArticle(input);
+		default: cout << "Something is wrong in interpret server side, wrong command code" << endl;
+			break; 
+	}
+	return ":-( interpret\n";
+}

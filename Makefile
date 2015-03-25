@@ -23,7 +23,7 @@ all: $(PROGS) #libclientserver.a
 
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
-main: memoryDB.o interpreter.o article.o connection.o server.o encoding.o
+main: memoryDB.o interpreter.o connection.o server.o encoding.o
 
 libclientserver.a: connection.o server.o
 	ar rv libclientserver.a  connection.o server.o
