@@ -2,6 +2,8 @@
 #include <memory>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
+#include <vector>
 #include "encoding.h"
 #include "connection.h"
 #include "protocol.h"
@@ -20,6 +22,7 @@ string readString(const shared_ptr<Connection>& conn){
 	
 	while(c != Protocol::COM_END){
 		message += c;
+		cout << c << endl;
 		c = conn->read();
 	}
 	
@@ -31,6 +34,8 @@ string convertStringToStringP(const string& s){
 	message += Protocol::PAR_STRING;
 	message += ' ';
 	message += s.size();
+	vector<unsigned char> v = intToBytes(s.size());
+	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
 	for (char c: s){
 		message += ' ';
 		message += c;
@@ -43,6 +48,8 @@ string convertNumberToNumP(int num){
 	message += Protocol::PAR_NUM;
 	message += ' ';
 	message += num;
+	vector<unsigned char> v = intToBytes(num);
+	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
 	return message;
 }
 
@@ -52,6 +59,12 @@ string convertStringPToString(istringstream& message){
 	message >> c;
 	char N;
 	message >> N;			//N
+	vector<unsigned char> v(4);
+	message >> v[0];
+	message >> v[1];
+	message >> v[2];
+	message >> v[3];
+	int N = bytesToInt(v);
 	for (char i = 0; i != N; ++i) {
 		message >> c;
 		s += c;
@@ -64,5 +77,24 @@ int convertNumPToNum(istringstream& message) {
 	char c;
 	message >> c;
 	message >> num;
+	vector<unsigned char> v(4);
+	message >> v[0];
+	message >> v[1];
+	message >> v[2];
+	message >> v[3];
+	int N = bytesToInt(v);
+	return N;
+}
+
+vector<unsigned char> intToBytes(int num) {
+	vector<unsigned char> v(4);
+	for (int i = 0; i != 4; ++i) {
+		v[3 - i] = (num >> (i*8));
+	}
+	return v;
+}
+
+int bytesToInt(vector<unsigned char>& v) {
+	int num = (v[0] << 24) | (v[1] << 16) | (v[2] << 8) | v[3];
 	return num;
 }
