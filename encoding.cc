@@ -46,7 +46,7 @@ string convertNumberToNumP(int num){
 	string message;
 	message += Protocol::PAR_NUM;
 	vector<unsigned char> v = intToBytes(num);
-	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
+	for_each(v.begin(), v.end(), [&] (char c) {message += ' '; message += c;});
 	return message;
 }
 
