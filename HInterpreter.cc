@@ -150,3 +150,15 @@ string HInterpreter::interpret(const std::string& message){
 	cout << "Unvalid command" << endl;
 	return ":-( interpret\n";
 }
+
+
+string HInterpreter::listCommands() {
+	string s = "list_ng - List all newsgroups\n";
+	s += "create_ng - Create a new newsgroup\n";
+	s += "delete_ng - Deletes a newsgroup\n";
+	s += "list_a - List articles in a newgroup\n";
+	s += "create_a - Create article\n";
+	s += "delete_a - Delete article\n";	
+	s += "get_a - Displays article\n";
+	return s;
+}
