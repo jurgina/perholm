@@ -2,7 +2,7 @@
 #include "connection.h"
 #include "connectionclosedexception.h"
 #include "encoding.h"
-
+#include "HInterpreter.h"
 #include "protocol.h"
 #include <iostream>
 #include <string>
@@ -11,27 +11,6 @@
 
 using namespace std;
 
-/*
- * Send an integer to the server as four bytes.
- */
-void writeNumber(const Connection& conn, int value) {
-	conn.write((value >> 24) & 0xFF);
-	conn.write((value >> 16) & 0xFF);
-	conn.write((value >> 8)	 & 0xFF);
-	conn.write(value & 0xFF);
-}
-
-/*
- * Read a string from the server.
- */
-string readString(const Connection& conn) {
-	string s;
-	char ch;
-	while ((ch = conn.read()) != '$') {
-		s += ch;
-	}
-	return s;
-}
 
 int main(int argc, char* argv[]) {
 	if (argc != 3) {
@@ -48,24 +27,24 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	Connection conn(argv[1], port);
-	if (!conn.isConnected()) {
+	shared_ptr<Connection> c(new Connection(argv[1], 1234));
+	if (!c->isConnected()) {
 		cerr << "Connection attempt failed" << endl;
 		exit(1);
 	}
-	shared_ptr<Connection> c(new Connection(argv[1], 1234));
-	cout << "Sending a string";
+	
+	cout << "Write a command";
 	int nbr=0;
+	HInterpreter inter;
 	while (nbr!=1) {
 		try {
-			string msg=convertStringToStringP("c8");
+			string input;
+			getline(cin,input);
+			string msg=inter.interpret(input);
 			writeString(msg,c);
-			//cout << msg.size( << endl;
 			cout << " " << msg << " is ...";
-			/*writeNumber(conn, nbr);
-			string reply = readString(conn);
-			cout << " " << reply << endl;
-			cout << "Type another number: ";*/
+			string reply = readString(c);
+			//add server interpeter
 			++nbr;
 		} catch (ConnectionClosedException&) {
 			cout << " no reply from server. Exiting." << endl;
