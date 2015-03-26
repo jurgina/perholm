@@ -15,21 +15,21 @@ string InterPreter::messageListNewsGroups(){
 	vector<std::string> newsgroups = db.listNewsGroups();
 	string response;
 	response += Protocol::ANS_LIST_NG;
-	// response += ' ';
+	  
 	if(newsgroups.size() != 0){
 		response += convertNumberToNumP(newsgroups.size());
-		// response += ' ';
+		  
 		size_t i = 0;
 		for(auto p: newsgroups){
 			response += convertNumberToNumP(i);
-			// response += ' ';
+			  
 			response += convertStringToStringP(p);
-			// response += ' ';	
+			  	
 			++i;
 		}
 	}else{
 		response += convertNumberToNumP(0);
-		// response += ' ';
+		  
 	}
 	response += Protocol::ANS_END;
 	return response;
@@ -41,7 +41,7 @@ string InterPreter::messageCreateNewsGroup(istringstream& message){
 	bool success = db.createNewsGroup(title);
 	string response;
 	response += Protocol::ANS_CREATE_NG;
-	// response += ' ';
+	  
 	
 	if(success){
 		response +=Protocol::ANS_ACK;
@@ -62,7 +62,7 @@ string InterPreter::messageDeleteNewsGroup(istringstream& message){
 	bool success = db.deleteNewsGroup(title);
 	string response;
 	response += Protocol::ANS_DELETE_NG;
-	// response += ' ';
+	  
 	
 	if(success){
 		response +=Protocol::ANS_ACK;
@@ -82,21 +82,21 @@ string InterPreter::messageListArticles(istringstream& message){
 	vector<Article> articles = db.listArticles(c);
 	string response;
 	response += Protocol::ANS_LIST_ART;
-	// response += ' ';
+	  
 	if (articles.size() != 0) {		// If the newsgroup exists
 		response += Protocol::ANS_ACK;
-		// response += ' ';
+		  
 		response += convertNumberToNumP(articles.size());
-		// response += ' ';
+		  
 		for (size_t i = 0; i < articles.size();++i){
 			response += convertNumberToNumP(i);
-		    // response += ' ';
+		      
 		    response += convertStringToStringP(articles[i].getTitle());
-		    // response += ' ';
+		      
 		}
 	} else {						// If the newsgroup doesn't exist
 		response += Protocol::ANS_NAK;
-		// response += ' ';
+		  
 		response += Protocol::ERR_NG_DOES_NOT_EXIST;
 	}
 	response += Protocol::ANS_END;
@@ -114,15 +114,12 @@ string InterPreter::messageCreateArticle(istringstream& message){
 
 	//write response to client
 	response += Protocol::ANS_CREATE_ART;
-	// response += ' ';
+	  
 	if(success){
-		response += Protocol::ANS_ACK;
-		// response += ' ';
+		response += Protocol::ANS_ACK;  
 	}else{
 		response += Protocol::ANS_NAK;
-		// response += ' ';
 		response += Protocol::ERR_NG_DOES_NOT_EXIST;
-		// response += ' ';
 	}
 	response += Protocol::ANS_END;
 	return response;
@@ -135,20 +132,17 @@ string InterPreter::messageDeleteArticle(istringstream& message){
 	int success = db.deleteArticle(groupID,articleID);
 	string response;
 	response += Protocol::ANS_DELETE_ART;
-	// response += ' ';
+	  
 	if(success == 2){
 		response += Protocol::ANS_ACK;
 	}else if(success == 1){
 		response += Protocol::ANS_NAK;
-		// response += ' ';
 		response += Protocol::ERR_NG_DOES_NOT_EXIST;
-		
 	}else if(success == 0){
 		response += Protocol::ANS_NAK;
-		// response += ' ';
 		response += Protocol::ERR_ART_DOES_NOT_EXIST;
 	}
-	// response += ' ';
+	  
 	response += Protocol::ANS_END;
 	return response;
 }
@@ -159,24 +153,20 @@ string InterPreter::messageGetArticle(istringstream& message){
 	int articleID = convertNumPToNum(message);	
 	string response;
 	response += Protocol::ANS_GET_ART;
-	// response += ' ';
+	  
 
 	Article* article = db.getArticle(groupID,articleID);
 
 	if (article != nullptr) {	
 		response += Protocol::ANS_ACK;
-		// response += ' ';
 		response += convertStringToStringP(article->getTitle());
-		// response += ' ';
 		response += convertStringToStringP(article->getAuthor());
-		// response += ' ';
 		response += convertStringToStringP(article->getText());
 	} else {
 		response += Protocol::ANS_NAK;
 		//fixa fall h'r!!!
 	}
-	// response += ' ';
-
+	
 	response += Protocol::ANS_END;
 	return response;
 }
