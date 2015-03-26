@@ -23,11 +23,11 @@ string HInterpreter::messageCreateNewsGroup(istringstream& message){
 	string response;
 	
 	response += Protocol::COM_CREATE_NG;
-	response +=' ';
+	//response +=' ';
 	string name;
 	message>>name;
 	response +=convertStringToStringP(name);
-	response +=' ';
+	//response +=' ';
 	response +=  Protocol::COM_END;
 	
 	return response;
@@ -38,11 +38,11 @@ string HInterpreter::messageDeleteNewsGroup(istringstream& message){
 string response;
 	
 	response += Protocol::COM_DELETE_NG;
-	response +=' ';
+	//response +=' ';
 	int id;
 	message>>id;
 	response +=convertNumberToNumP(id);
-	response +=' ';
+	//response +=' ';
 	response +=  Protocol::COM_END;
 	
 	return response;
@@ -52,11 +52,11 @@ string response;
 string HInterpreter::messageListArticles(istringstream& message){
 	string response;
 	response += Protocol::COM_LIST_ART;
-	response +=' ';
+	//response +=' ';
 	int id;
 	message>>id;
 	response +=convertNumberToNumP(id);
-	response +=' ';
+	//response +=' ';
 	response +=  Protocol::COM_END;
 	
 	return response;
@@ -66,24 +66,24 @@ string HInterpreter::messageListArticles(istringstream& message){
 string HInterpreter::messageCreateArticle(istringstream& message){
 	string response;
 	response += Protocol::COM_CREATE_ART;
-	response +=' ';
+	//response +=' ';
 	int id;
 	message>>id;
 	response +=convertNumberToNumP(id);
-	response +=' ';
+	//response +=' ';
 	string p;
 	message>>p;
 	response+=convertStringToStringP(p);
-	response +=' ';
+	//response +=' ';
 	string p2;
 	message>>p2;
 	response+=convertStringToStringP(p2);
-	response +=' ';
+	//response +=' ';
 	string p3;
 	message>>p3;
 	response+=convertStringToStringP(p3);
 	
-	response +=' ';
+	//response +=' ';
 	response +=  Protocol::COM_END;
 	
 	return response;
@@ -93,16 +93,16 @@ string HInterpreter::messageCreateArticle(istringstream& message){
 string HInterpreter::messageDeleteArticle(istringstream& message){
 	string response;
 	response += Protocol::COM_DELETE_ART;
-	response +=' ';
+	//response +=' ';
 	int id;
 	message>>id;
 	response +=convertNumberToNumP(id);
-	response +=' ';
+	//response +=' ';
 	int idA;
 	message>>idA;
 	response+=convertNumberToNumP(idA);
 	
-	response +=' ';
+	//response +=' ';
 	response +=  Protocol::COM_END;
 	
 	return response;
@@ -112,16 +112,16 @@ string HInterpreter::messageDeleteArticle(istringstream& message){
 string HInterpreter::messageGetArticle(istringstream& message){
 	string response;
 	response += Protocol::COM_GET_ART;
-	response +=' ';
+	//response +=' ';
 	int id;
 	message>>id;
 	response +=convertNumberToNumP(id);
-	response +=' ';
+	//response +=' ';
 	int idA;
 	message>>idA;
 	response+=convertNumberToNumP(idA);
 	
-	response +=' ';
+	//response +=' ';
 	response +=  Protocol::COM_END;
 	
 	return response;
