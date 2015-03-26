@@ -33,7 +33,6 @@ string convertStringToStringP(const string& s){
 	string message;
 	message += Protocol::PAR_STRING;
 	message += ' ';
-	message += s.size();
 	vector<unsigned char> v = intToBytes(s.size());
 	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
 	for (char c: s){
@@ -46,8 +45,6 @@ string convertStringToStringP(const string& s){
 string convertNumberToNumP(int num){
 	string message;
 	message += Protocol::PAR_NUM;
-	message += ' ';
-	message += num;
 	vector<unsigned char> v = intToBytes(num);
 	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
 	return message;
@@ -57,8 +54,6 @@ string convertStringPToString(istringstream& message){
 	string s;
 	char c;
 	message >> c;
-	char N;
-	message >> N;			//N
 	vector<unsigned char> v(4);
 	message >> v[0];
 	message >> v[1];
@@ -73,10 +68,8 @@ string convertStringPToString(istringstream& message){
 }
 
 int convertNumPToNum(istringstream& message) {
-	int num = 0;
 	char c;
 	message >> c;
-	message >> num;
 	vector<unsigned char> v(4);
 	message >> v[0];
 	message >> v[1];
