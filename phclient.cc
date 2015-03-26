@@ -34,17 +34,11 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	cout << "Write a command"<<endl;
+	cout << "Write a command\nThe commands are:\n"<< HInterpreter::listCommands() << endl;
 	int nbr=0;
 	HInterpreter inter;
 	while (nbr!=10) {
 		try {
-			string floff = convertNumberToNumP(0);
-			for(char ccc:floff) {
-				cout <<(int) ccc << " ";
-			}
-			cout << endl;
-
 			string input;
 			getline(cin,input);
 			string msg=inter.interpret(input);
@@ -54,20 +48,7 @@ int main(int argc, char* argv[]) {
 			}
 			cout<<endl;
 			cout << " " << msg << " is ..."<<endl;
-			//string reply = readString(c);
-			//add server interpeter
-			/*
-			string msg;
-			msg += Protocol::COM_LIST_NG;
-			msg += ' ';
-			msg += Protocol::COM_END;
-			writeString(msg,c);
-			//cout << msg.size( << endl;
-			cout << " " << msg << " is ..." << endl;
-			/*writeNumber(conn, nbr);
-			string reply = readString(conn);
-			cout << " " << reply << endl;
-			cout << "Type another number: ";*/
+			
 			++nbr;
 		} catch (ConnectionClosedException&) {
 			cout << " no reply from server. Exiting." << endl;

@@ -1,5 +1,5 @@
-#ifndef INTERPRETER_H
-#define INTERPRETER_H
+#ifndef SERVERRESPONSE_H
+#define SERVERRESPONSE_H
 
 
 #include <string>
@@ -9,19 +9,13 @@
 #include "protocol.h"
 #include "encoding.h"
 
-class HInterpreter {
+class ServerResponse {
 public:
-	/* Gets an message from the client, interprets it and does stuff with it and sends back the r
-		the results */
-	std::string interpret(const std::string& message);
-
-	/* Lists the commands */
-	std::string static listCommands();
+	std::string interpret(const std::string&);
 
 private:
-
 	/* Returns the message from the list newsgroup command */
-	std::string messageListNewsGroups();
+	std::string messageListNewsGroups(std::istringstream& message);
 
 	/* Returns the message from the create newsgroup command */
 	std::string messageCreateNewsGroup(std::istringstream& message);
@@ -40,8 +34,6 @@ private:
 
 	/* Returns the message from the get article command */
 	std::string messageGetArticle(std::istringstream& message);
-
-
 };
 
 #endif

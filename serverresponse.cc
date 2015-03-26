@@ -11,27 +11,20 @@ using namespace std;
 
 
 /* Returns the message from the list newsgroup command */
-string InterPreter::messageListNewsGroups(){
-	vector<pair<int,string>> newsgroups = db.listNewsGroups();
+string InterPreter::messageListNewsGroups(istringstream& message){
 	string response;
-	response += Protocol::ANS_LIST_NG;
-	  
-	if(newsgroups.size() != 0){
-		response += convertNumberToNumP(newsgroups.size());
-
-		// response += ' ';
-		for(auto p: newsgroups){
-			response += convertNumberToNumP(p.first);
-			// response += ' ';
-			response += convertStringToStringP(p.second);
-			// response += ' ';	
+	int N = convertNumPToNum(message);
+	if (N != 0) {
+		response += "The newsgroups are:\n"; 
+		for (int i = 0; i != N; ++i) {
+			int num = convertNumPToNum(message);
+			response += num + ": ";
+			response += convertStringPToString(message);
+			response += "\n";
 		}
-	}else{
-		response += convertNumberToNumP(0);
-		// response += ' ';				
-
+	} else {
+		response += "Sorry no newsgroups exists";
 	}
-	response += Protocol::ANS_END;
 	return response;
 }
 
@@ -176,21 +169,21 @@ string InterPreter::interpret(const std::string& message){
 	char command;
 	input >> command;
 	switch(command){
-		case Protocol::COM_LIST_NG:
-			return messageListNewsGroups();
-		case Protocol::COM_CREATE_NG: 
+		case Protocol::ANS_LIST_NG:
+			return messageListNewsGroups(input);
+		case Protocol::ANS_CREATE_NG: 
 			return messageCreateNewsGroup(input);
-		case Protocol::COM_DELETE_NG: 
+		case Protocol::ANS_DELETE_NG: 
 			return messageDeleteNewsGroup(input);
-		case Protocol::COM_LIST_ART: 
+		case Protocol::ANS_LIST_ART: 
 			return messageListArticles(input);
-		case Protocol::COM_CREATE_ART: 
+		case Protocol::ANS_CREATE_ART: 
 			return messageCreateArticle(input);
-		case Protocol::COM_DELETE_ART: 
+		case Protocol::ANS_DELETE_ART: 
 			return messageDeleteArticle(input);
-		case Protocol::COM_GET_ART: 
+		case Protocol::ANS_GET_ART: 
 			return messageGetArticle(input);
-		default: cout << "Something is wrong in interpret server side, wrong command code" << endl;
+		default: cout << "Something is wrong in interpret client-serverresponse side, wrong command code" << endl;
 			break; 
 	}
 	return ":-( interpret\n";

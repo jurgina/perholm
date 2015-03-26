@@ -42,11 +42,9 @@ int main(int argc, char* argv[]){
 		auto conn = server.waitForActivity();
 		if (conn != nullptr) {
 			try {
-				cout<<"reading"<<endl;
+				cout<<"Reading"<<endl;
 				string msg=readString(conn);
-				//cout << msg << "hej" << endl;
 				string out=inter.interpret(msg);
-				cout << out << endl;
 				writeString(out,conn);
 			} catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);
