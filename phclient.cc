@@ -34,17 +34,21 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	cout << "Write a command";
+	cout << "Write a command"<<endl;
 	int nbr=0;
 	HInterpreter inter;
-	while (nbr!=1) {
+	while (nbr!=10) {
 		try {
 			string input;
 			getline(cin,input);
 			string msg=inter.interpret(input);
-			writeString(msg,c);
-			cout << " " << msg << " is ...";
-			string reply = readString(c);
+			//writeString(msg,c);
+			for(auto cc: msg){
+				cout<<(int)cc<<' ';
+			}
+			cout<<endl;
+			cout << " " << msg << " is ..."<<endl;
+			//string reply = readString(c);
 			//add server interpeter
 			/*
 			string msg;
