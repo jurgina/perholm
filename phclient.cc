@@ -5,6 +5,7 @@
 #include "HInterpreter.h"
 #include "protocol.h"
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <stdexcept>
 #include <cstdlib>
@@ -45,6 +46,18 @@ int main(int argc, char* argv[]) {
 			cout << " " << msg << " is ...";
 			string reply = readString(c);
 			//add server interpeter
+			/*
+			string msg;
+			msg += Protocol::COM_LIST_NG;
+			msg += ' ';
+			msg += Protocol::COM_END;
+			writeString(msg,c);
+			//cout << msg.size( << endl;
+			cout << " " << msg << " is ..." << endl;
+			/*writeNumber(conn, nbr);
+			string reply = readString(conn);
+			cout << " " << reply << endl;
+			cout << "Type another number: ";*/
 			++nbr;
 		} catch (ConnectionClosedException&) {
 			cout << " no reply from server. Exiting." << endl;

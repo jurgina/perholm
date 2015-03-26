@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include "connection.h"
 
 
@@ -24,5 +25,11 @@ std::string convertStringPToString(std::istringstream& message);
 
 /* Converts a num_p to num format */
 int convertNumPToNum(std::istringstream& message);
+
+/*Converts a int to a vectors of four chars */
+std::vector<unsigned char> intToBytes(int num);
+
+/*Converts a vector of four bytes to an int */
+int bytesToInt(std::vector<unsigned char>& v);
 
 #endif
