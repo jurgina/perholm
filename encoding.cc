@@ -20,12 +20,7 @@ string readString(const shared_ptr<Connection>& conn){
 	
 	while(c != Protocol::COM_END){
 		message += c;
-		cout<<c<<endl;
-		
-		if(c != Protocol::COM_END){
-			cout<<message<<endl;
-			c = conn->read();
-		}
+		c = conn->read();
 	}
 	
 	return message;

@@ -11,7 +11,6 @@
 #include "article.h"
 class DataBase {
 public:
-	//virtual ~DataBase()=0;
 	virtual std::vector<std::string> listNewsGroups() = 0;
 	virtual bool createNewsGroup(std::string name) = 0;
 	virtual bool deleteNewsGroup(char groupID) = 0;

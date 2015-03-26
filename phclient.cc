@@ -41,7 +41,8 @@ int main(int argc, char* argv[]) {
 	
 	int port = -1;
 	try {
-		port = stoi(argv[2]);
+		//port = stoi(argv[2]);
+		port = 1234;
 	} catch (exception& e) {
 		cerr << "Wrong port number. " << e.what() << endl;
 		exit(1);
@@ -59,8 +60,9 @@ int main(int argc, char* argv[]) {
 		try {
 			string msg=convertStringToStringP("c8");
 			writeString(msg,c);
-			/*cout << nbr << " is ...";
-			writeNumber(conn, nbr);
+			//cout << msg.size( << endl;
+			cout << " " << msg << " is ...";
+			/*writeNumber(conn, nbr);
 			string reply = readString(conn);
 			cout << " " << reply << endl;
 			cout << "Type another number: ";*/
