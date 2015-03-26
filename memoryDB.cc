@@ -22,12 +22,12 @@ bool memoryDB::createNewsGroup(std::string name){
 	return false;
 }
 
-bool memoryDB::deleteNewsGroup(char groupID){
+bool memoryDB::deleteNewsGroup(int groupID){
 	db.erase(groupIDs[groupID]);
 	return true;
 }
 
-std::vector<Article> memoryDB::listArticles(char groupID) {
+std::vector<Article> memoryDB::listArticles(int groupID) {
 	string gname=groupIDs[groupID];
 	auto itpair = db.equal_range(gname);
 	vector<pair<string,Article>> tmp(itpair.first, itpair.second);
@@ -38,13 +38,13 @@ std::vector<Article> memoryDB::listArticles(char groupID) {
 	return art;
 }
 
-bool memoryDB::createArticle(char groupID, string title,string author, string text){
+bool memoryDB::createArticle(int groupID, string title,string author, string text){
 	string gname=groupIDs[groupID];
 	db.insert(pair<string, Article>(gname, Article(title,author,text, db.count(gname))));
 	return true;
 }
 
-int memoryDB::deleteArticle(char groupID, char articleID){
+int memoryDB::deleteArticle(int groupID, int articleID){
 	typedef multimap<string, Article>::iterator iterator;
 	string gname=groupIDs[groupID];
 
@@ -64,7 +64,7 @@ int memoryDB::deleteArticle(char groupID, char articleID){
 	return 0;
 }
 
-Article* memoryDB::getArticle(char groupID,char articleID) {
+Article* memoryDB::getArticle(int groupID, int articleID) {
 	typedef multimap<string, Article>::iterator iterator;
 	string gname=groupIDs[groupID];
 	std::pair<iterator, iterator> iterpair = db.equal_range(gname);

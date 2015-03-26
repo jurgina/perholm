@@ -13,11 +13,11 @@ class DataBase {
 public:
 	virtual std::vector<std::string> listNewsGroups() = 0;
 	virtual bool createNewsGroup(std::string name) = 0;
-	virtual bool deleteNewsGroup(char groupID) = 0;
-	virtual std::vector<Article> listArticles(char groupID) = 0;
-	virtual bool createArticle(char groupID,std::string title,std::string author, std::string text) = 0;
-	virtual int deleteArticle(char groupID,char articleID) = 0;
-	virtual Article* getArticle(char groupID,char articleID) = 0;
+	virtual bool deleteNewsGroup(int groupID) = 0;
+	virtual std::vector<Article> listArticles(int groupID) = 0;
+	virtual bool createArticle(int groupID,std::string title,std::string author, std::string text) = 0;
+	virtual int deleteArticle(int groupID, int articleID) = 0;
+	virtual Article* getArticle(int groupID, int articleID) = 0;
 };
 
 #endif
