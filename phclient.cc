@@ -39,6 +39,12 @@ int main(int argc, char* argv[]) {
 	HInterpreter inter;
 	while (nbr!=10) {
 		try {
+			string floff = convertNumberToNumP(0);
+			for(char ccc:floff) {
+				cout <<(int) ccc << " ";
+			}
+			cout << endl;
+
 			string input;
 			getline(cin,input);
 			string msg=inter.interpret(input);

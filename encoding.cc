@@ -32,11 +32,11 @@ string readString(const shared_ptr<Connection>& conn){
 string convertStringToStringP(const string& s){
 	string message;
 	message += Protocol::PAR_STRING;
-	message += ' ';
+	// message += ' ';
 	vector<unsigned char> v = intToBytes(s.size());
 	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
 	for (char c: s){
-		message += ' ';
+		// message += ' ';
 		message += c;
 	}
 	return message;
@@ -46,7 +46,7 @@ string convertNumberToNumP(int num){
 	string message;
 	message += Protocol::PAR_NUM;
 	vector<unsigned char> v = intToBytes(num);
-	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
+	for_each(v.begin(), v.end(), [&] (char c) {/*message += ' '*/; message += c;});
 	return message;
 }
 
