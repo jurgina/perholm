@@ -186,7 +186,7 @@ string InterPreter::interpret(const std::string& message){
 	char command;
 	input >> command;
 	switch(command){
-		case Protocol::COM_LIST_NG: 
+		case Protocol::COM_LIST_NG:
 			return messageListNewsGroups();
 		case Protocol::COM_CREATE_NG: 
 			return messageCreateNewsGroup(input);

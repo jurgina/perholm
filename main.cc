@@ -44,7 +44,9 @@ int main(int argc, char* argv[]){
 			try {
 				cout<<"reading"<<endl;
 				string msg=readString(conn);
+				cout << msg << "hej" << endl;
 				string out=inter.interpret(msg);
+				cout << out << endl;
 				writeString(out,conn);
 			} catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);

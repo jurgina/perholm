@@ -5,6 +5,7 @@
 
 #include "protocol.h"
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <stdexcept>
 #include <cstdlib>
@@ -58,10 +59,13 @@ int main(int argc, char* argv[]) {
 	int nbr=0;
 	while (nbr!=1) {
 		try {
-			string msg=convertStringToStringP("c8");
+			string msg;
+			msg += Protocol::COM_LIST_NG;
+			msg += ' ';
+			msg += Protocol::COM_END;
 			writeString(msg,c);
 			//cout << msg.size( << endl;
-			cout << " " << msg << " is ...";
+			cout << " " << msg << " is ..." << endl;
 			/*writeNumber(conn, nbr);
 			string reply = readString(conn);
 			cout << " " << reply << endl;
