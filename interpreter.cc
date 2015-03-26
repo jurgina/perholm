@@ -12,24 +12,22 @@ using namespace std;
 
 /* Returns the message from the list newsgroup command */
 string InterPreter::messageListNewsGroups(){
-	vector<std::string> newsgroups = db.listNewsGroups();
+	vector<pair<int,string>> newsgroups = db.listNewsGroups();
 	string response;
 	response += Protocol::ANS_LIST_NG;
 	// response += ' ';
 	if(newsgroups.size() != 0){
 		response += convertNumberToNumP(newsgroups.size());
 		// response += ' ';
-		size_t i = 0;
 		for(auto p: newsgroups){
-			response += convertNumberToNumP(i);
+			response += convertNumberToNumP(p.first);
 			// response += ' ';
-			response += convertStringToStringP(p);
+			response += convertStringToStringP(p.second);
 			// response += ' ';	
-			++i;
 		}
 	}else{
 		response += convertNumberToNumP(0);
-		// response += ' ';
+		// response += ' ';				
 	}
 	response += Protocol::ANS_END;
 	return response;

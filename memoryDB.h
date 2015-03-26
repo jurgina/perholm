@@ -8,7 +8,10 @@
 
 class memoryDB: public DataBase {
 public:
-	std::vector<std::string> listNewsGroups();
+	memoryDB(){
+	nbr=0;
+}
+	std::vector<std::pair<int,std::string>> listNewsGroups();
 	bool createNewsGroup(std::string name);
 	bool deleteNewsGroup(int groupID);
 	std::vector<Article> listArticles(int groupID);
@@ -17,8 +20,16 @@ public:
 	Article* getArticle(int groupID, int articleID);
 
 private:
-	std::multimap<std::string,Article> db;
-	std::vector<std::string> groupIDs;
+	struct newsGroup{
+		int id;
+		std::string name;
+		std::vector<Article> arts;	
+		char c;
+	};
+
+	int nbr;
+	std::vector<newsGroup> ng;
+
 };
 
 #endif

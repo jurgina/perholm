@@ -9,73 +9,78 @@
 
 using namespace std;
 
-vector<string> memoryDB::listNewsGroups(){
-	return groupIDs;   
+vector<pair<int,string>> memoryDB::listNewsGroups(){
+	vector<pair<int,string>> v;
+	for(auto n: ng){
+		//v.push_back(make_pair(n->id,n->name));
+	}
+	return v;   
 }
 
 bool memoryDB::createNewsGroup(std::string name){
-	auto it= find(groupIDs.begin(), groupIDs.end(),name);
-	if(it==groupIDs.end()){
-		groupIDs.push_back(name);
+	auto it= find_if(ng.begin(), ng.end(),[name](newsGroup& n){return n.name==name;});
+	
+	if(it==ng.end()){
+		newsGroup n;
+		n.name=name;
+		n.id=nbr;
+		nbr++;
+		ng.push_back(n);
 		return true;
 	}
 	return false;
 }
 
 bool memoryDB::deleteNewsGroup(int groupID){
-	db.erase(groupIDs[groupID]);
+	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
+	
+	ng.erase(it);
 	return true;
 }
 
 std::vector<Article> memoryDB::listArticles(int groupID) {
-	string gname=groupIDs[groupID];
-	auto itpair = db.equal_range(gname);
-	vector<pair<string,Article>> tmp(itpair.first, itpair.second);
-	vector<Article> art;
-	for(auto itr=tmp.begin();itr!=tmp.end();++itr){
-		art.push_back((*itr).second);
-	}
-	return art;
+	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
+	
+	
+	vector<Article> a=(*it).arts;
+	return a;
 }
 
 bool memoryDB::createArticle(int groupID, string title,string author, string text){
-	string gname=groupIDs[groupID];
-	db.insert(pair<string, Article>(gname, Article(title,author,text, db.count(gname))));
+	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
+	
+	Article a(author ,title , text, ++(*it).c) ;
+	
+	(*it).arts.push_back(a);
+	
 	return true;
 }
 
 int memoryDB::deleteArticle(int groupID, int articleID){
-	typedef multimap<string, Article>::iterator iterator;
-	string gname=groupIDs[groupID];
-
-	auto iterpair = db.equal_range(gname);
-	if(iterpair.first==iterpair.second){
+	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
+	if(it==ng.end()){
 		return 1;
 	}
-	iterator it = iterpair.first;
+	auto it2= find_if((*it).arts.begin(), (*it).arts.end(),[articleID](Article& n){return n.getID()==articleID;});
 	
-	for (; it != iterpair.second; ++it) {
-	    if (it->second.getID() == articleID) { 
-			db.erase(it);
-			return 2;
-	    }
+	
+	if(it2==(*it).arts.end()){
+		return 0;
 	}
-	
-	return 0;
+	(*it).arts.erase(it2);
+	return 2;
 }
 
 Article* memoryDB::getArticle(int groupID, int articleID) {
-	typedef multimap<string, Article>::iterator iterator;
-	string gname=groupIDs[groupID];
-	std::pair<iterator, iterator> iterpair = db.equal_range(gname);
-	 
-	iterator it = iterpair.first;
-	for (; it != iterpair.second; ++it) {
-	    if (it->second.getID() == articleID) { 
-			return &(it->second);
-	    }
+	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
+	if(it==ng.end()){
+		return nullptr;
 	}
-	return nullptr;
+	auto it2= find_if((*it).arts.begin(), (*it).arts.end(),[articleID](Article& n){return n.getID()==articleID;});
+	if(it2==(*it).arts.end()){
+		return nullptr;
+	}
+	return &(*it2);
 }
 
 
