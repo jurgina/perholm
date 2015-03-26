@@ -17,10 +17,17 @@ void writeString(const string& s, const shared_ptr<Connection>& conn){
 string readString(const shared_ptr<Connection>& conn){
 	string message;
 	char c = conn->read();
+	
 	while(c != Protocol::COM_END){
 		message += c;
-		c = conn->read();
+		cout<<c<<endl;
+		
+		if(c != Protocol::COM_END){
+			cout<<message<<endl;
+			c = conn->read();
+		}
 	}
+	
 	return message;
 }
 

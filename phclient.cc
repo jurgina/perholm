@@ -1,7 +1,9 @@
 /* myclient.cc: sample client program */
 #include "connection.h"
 #include "connectionclosedexception.h"
+#include "encoding.h"
 
+#include "protocol.h"
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -50,16 +52,19 @@ int main(int argc, char* argv[]) {
 		cerr << "Connection attempt failed" << endl;
 		exit(1);
 	}
-	
-	cout << "Type a number: ";
-	int nbr;
-	while (cin >> nbr) {
+	shared_ptr<Connection> c(new Connection(argv[1], 1234));
+	cout << "Sending a string";
+	int nbr=0;
+	while (nbr!=1) {
 		try {
-			cout << nbr << " is ...";
+			string msg=convertStringToStringP("c8");
+			writeString(msg,c);
+			/*cout << nbr << " is ...";
 			writeNumber(conn, nbr);
 			string reply = readString(conn);
 			cout << " " << reply << endl;
-			cout << "Type another number: ";
+			cout << "Type another number: ";*/
+			++nbr;
 		} catch (ConnectionClosedException&) {
 			cout << " no reply from server. Exiting." << endl;
 			exit(1);

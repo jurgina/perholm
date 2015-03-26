@@ -36,12 +36,17 @@ int main(int argc, char* argv[]){
 		cerr << "Server initialization error." << endl;
 		exit(1);
 	}
-	
+	DataBase* db=new memoryDB();
+	InterPreter inter(*db);
 	while (true) {
 		auto conn = server.waitForActivity();
 		if (conn != nullptr) {
 			try {
-				// Här ska göras något, inte helt säkert vad än.
+				//char c=conn->read();
+				cout<<"reading"<<endl;
+				string msg=readString(conn);
+				//cout<<c<<endl;
+				cout<<msg<<endl;
 			} catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);
 				cout << "Client closed connection" << endl;
