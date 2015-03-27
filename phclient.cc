@@ -22,8 +22,7 @@ int main(int argc, char* argv[]) {
 	
 	int port = -1;
 	try {
-		//port = stoi(argv[2]);
-		port = 1234;
+		port = stoi(argv[2]);
 	} catch (exception& e) {
 		cerr << "Wrong port number. " << e.what() << endl;
 		exit(1);
@@ -43,14 +42,14 @@ int main(int argc, char* argv[]) {
 		try {
 			string input;
 			getline(cin,input);
-			string msg=inter.interpret(input);
-			/*for(auto cc: msg){
-				cout<<(int)cc<<' ';
+			if(input=="quit"){
+				exit(1);
 			}
-			cout<<endl;
-			cout << " " << msg << " is ..."<<endl;*/
-			
-			string msg1=msg.substr(6);
+			string msg=inter.interpret(input);
+			string msg1;
+			if(msg.size()>6){
+				msg1=msg.substr(0,6);
+			}
 			if(msg== "Unvalid command"){
 				cout << "The command you have entered is unvalid. Please enter a new command."<<endl;
 				cout << HInterpreter::listCommands() << endl;

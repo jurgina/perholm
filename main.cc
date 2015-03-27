@@ -24,8 +24,7 @@ int main(int argc, char* argv[]){
 	
 	int port = -1;
 	try {
-		port = 1234;
-		//port = stoi(argv[1]);
+		port = stoi(argv[1]);
 	} catch (exception& e) {
 		cerr << "Wrong port number. " << e.what() << endl;
 		exit(1);

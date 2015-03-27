@@ -143,7 +143,7 @@ string HInterpreter::messageHelp(istringstream& message){
 	}else if(command=="get_a"){
 		return "Help  \n get_a ngID aID \n int ngID - newsgroup ID \n int ngID - newsgroup ID \n Shows the article with newsgroup ID ngID and article ID aID.";
 	}
-	return  "Help  on an unvalid command" ;
+	return  "Help  \n"+listCommands() ;
 }
 
 string HInterpreter::interpret(const std::string& message){
@@ -164,9 +164,9 @@ string HInterpreter::interpret(const std::string& message){
 		return messageDeleteArticle(input);
 	}else if(command=="get_a"){
 		return messageGetArticle(input);
-	}else if(command=="help")
+	}else if(command=="help"){
 		return messageHelp(input);
-	
+	}
 	return  "Unvalid command" ;
 }
 
@@ -179,5 +179,6 @@ string HInterpreter::listCommands() {
 	s += "create_a - Create article\n";
 	s += "delete_a - Delete article\n";	
 	s += "get_a - Displays article\n";
+	s += "quit - Quit the program\n";
 	return s;
 }
