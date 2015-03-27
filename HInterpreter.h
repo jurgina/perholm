@@ -40,6 +40,9 @@ private:
 
 	/* Returns the message from the get article command */
 	std::string messageGetArticle(std::istringstream& message);
+	
+	/* Returns the message from the get article command */
+	std::string messageHelp(std::istringstream& message);
 
 
 };

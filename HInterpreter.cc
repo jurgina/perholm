@@ -12,7 +12,6 @@ using namespace std;
 /* Returns the message from the list newsgroup command */
 string HInterpreter::messageListNewsGroups(){
 	string response;
-	
 	response += Protocol::COM_LIST_NG;
 	response +=  Protocol::COM_END;
 	return response;
@@ -21,71 +20,71 @@ string HInterpreter::messageListNewsGroups(){
 /* Returns the message from the create newsgroup command */
 string HInterpreter::messageCreateNewsGroup(istringstream& message){
 	string response;
-	
 	response += Protocol::COM_CREATE_NG;
-	//response +=' ';
 	string name;
-	message>>name;
-	response +=convertStringToStringP(name);
-	//response +=' ';
-	response +=  Protocol::COM_END;
+	if(message>>name){
+		response +=convertStringToStringP(name);
+		response +=  Protocol::COM_END;
+		return response;
+	}
+	return "Unvalid format of name. Name of a newsgroup should be a word.";
 	
-	return response;
 }
 
 /* Returns the message from the delete newsgroup command */
 string HInterpreter::messageDeleteNewsGroup(istringstream& message){
-string response;
-	
+	string response;
 	response += Protocol::COM_DELETE_NG;
-	//response +=' ';
 	int id;
-	message>>id;
-	response +=convertNumberToNumP(id);
-	//response +=' ';
-	response +=  Protocol::COM_END;
-	
-	return response;
+	if(message>>id){
+		response +=convertNumberToNumP(id);
+		response +=  Protocol::COM_END;
+		return response;
+	}
+	return "Unvalid format of id. Id of a newsgroup a should be a number.";
 }
 
 /* Returns the message from the list articles command */
 string HInterpreter::messageListArticles(istringstream& message){
 	string response;
 	response += Protocol::COM_LIST_ART;
-	//response +=' ';
 	int id;
-	message>>id;
-	response +=convertNumberToNumP(id);
-	//response +=' ';
-	response +=  Protocol::COM_END;
+	if(message>>id){
+		response +=convertNumberToNumP(id);
+		response +=  Protocol::COM_END;
+		return response;
+	}
+	return "Unvalid format of id. Id of a newsgroup should be a number.";
 	
-	return response;
 }
 
 /* Returns the message from the create article command */
 string HInterpreter::messageCreateArticle(istringstream& message){
 	string response;
 	response += Protocol::COM_CREATE_ART;
-	//response +=' ';
 	int id;
-	message>>id;
+	if(!(message>>id)){
+		return "Unvalid format of id. Id of a newsgroup should be a number.";
+	}
 	response +=convertNumberToNumP(id);
-	//response +=' ';
-	string p;
-	message>>p;
-	response+=convertStringToStringP(p);
-	//response +=' ';
-	string p2;
-	message>>p2;
-	response+=convertStringToStringP(p2);
-	//response +=' ';
-	string p3;
-	message>>p3;
-	response+=convertStringToStringP(p3);
+	string title;
+	if(!(message>>title)){
+		return "Unvalid format of title. Title of an article should be a word.";
+	}
+	response+=convertStringToStringP(title);
 	
-	//response +=' ';
+	string author;
+	if(!(message>>author)){
+		return "Unvalid format of author. The author of an article should be a word.";
+	}
+	response+=convertStringToStringP(author);
+	string text;
+	char ctmp;
+	while(message>>ctmp){
+		text+=ctmp;
+	}
+	response+=convertStringToStringP(text);
 	response +=  Protocol::COM_END;
-	
 	return response;
 }
 
@@ -93,18 +92,17 @@ string HInterpreter::messageCreateArticle(istringstream& message){
 string HInterpreter::messageDeleteArticle(istringstream& message){
 	string response;
 	response += Protocol::COM_DELETE_ART;
-	//response +=' ';
 	int id;
-	message>>id;
+	if(!(message>>id)){
+		return "Unvalid format of id. Id of a newsgroup should be a number.";
+	}
 	response +=convertNumberToNumP(id);
-	//response +=' ';
 	int idA;
-	message>>idA;
+	if(!(message>>idA)){
+		return "Unvalid format of id. Id of an article should be a number.";
+	}
 	response+=convertNumberToNumP(idA);
-	
-	//response +=' ';
 	response +=  Protocol::COM_END;
-	
 	return response;
 }
 
@@ -112,19 +110,40 @@ string HInterpreter::messageDeleteArticle(istringstream& message){
 string HInterpreter::messageGetArticle(istringstream& message){
 	string response;
 	response += Protocol::COM_GET_ART;
-	//response +=' ';
 	int id;
-	message>>id;
+	if(!(message>>id)){
+		return "Unvalid format of id. Id of a newsgroup should be a number.";
+	}
 	response +=convertNumberToNumP(id);
-	//response +=' ';
 	int idA;
-	message>>idA;
+	if(!(message>>idA)){
+		return "Unvalid format of id. Id of an article should be a number.";
+	}
 	response+=convertNumberToNumP(idA);
-	
-	//response +=' ';
 	response +=  Protocol::COM_END;
 	
 	return response;
+}
+
+string HInterpreter::messageHelp(istringstream& message){
+	string command;
+	message >> command;
+	if(command=="list_ng"){
+		return "Help  \n list_ng \n No input parameters.\n Lists all news groups";
+	}else if(command=="create_ng"){
+		return "Help  \n create_ng ngName \n string ngName - newsgroup name.\n Creates a newsgroup with name ngName. ";
+	}else if(command=="delete_ng"){
+		return "Help  \n delete_ng ngID \n int ngID - newsgroup ID \n Deletes the newsgroup with newsgroup ID ngID if it exists.";
+	}else if(command=="list_a"){
+		return "Help  \n list_a ngID \n int ngID - newsgroup ID \n Lists all of the articles in the newsgroup with newsgroup ID ngID if it exists.";
+	}else if(command=="create_a"){
+		return "Help  \n create_a ngID titleA authorA textA \n int ngID - newsgroup ID \n string titleA - article title  \n string authorA - article author  \n string textA - contents of article \n Creates an article in the newsgroup with newsgroup ID ngID, title titleA author authorA and contents textA.";
+	}else if(command=="delete_a"){
+		return "Help  \n delete_a ngID aID \n int ngID - newsgroup ID \n int ngID - newsgroup ID \n Deletes the article with newsgroup ID ngID and article ID aID.";
+	}else if(command=="get_a"){
+		return "Help  \n get_a ngID aID \n int ngID - newsgroup ID \n int ngID - newsgroup ID \n Shows the article with newsgroup ID ngID and article ID aID.";
+	}
+	return  "Help  on an unvalid command" ;
 }
 
 string HInterpreter::interpret(const std::string& message){
@@ -145,10 +164,10 @@ string HInterpreter::interpret(const std::string& message){
 		return messageDeleteArticle(input);
 	}else if(command=="get_a"){
 		return messageGetArticle(input);
-	}
+	}else if(command=="help")
+		return messageHelp(input);
 	
-	cout << "Unvalid command" << endl;
-	return ":-( interpret\n";
+	return  "Unvalid command" ;
 }
 
 

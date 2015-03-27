@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 	cout << "Write a command\nThe commands are:\n"<< HInterpreter::listCommands() << endl;
 	int nbr=0;
 	HInterpreter inter;
-	while (isConnected()) {
+	while (c->isConnected()) {
 		try {
 			string input;
 			getline(cin,input);
@@ -47,8 +47,13 @@ int main(int argc, char* argv[]) {
 			}
 			cout<<endl;
 			cout << " " << msg << " is ..."<<endl;*/
+			
+			string msg1=msg.substr(6);
 			if(msg== "Unvalid command"){
-				cout << "The command you have entered is unvalid. Please enter a new command."<<endl	
+				cout << "The command you have entered is unvalid. Please enter a new command."<<endl;
+				cout << HInterpreter::listCommands() << endl;
+			}else if(msg1=="Unvalid" || msg1=="Help  "){
+				cout<<msg<<endl;
 			}else{
 				writeString(msg,c);
 			}
