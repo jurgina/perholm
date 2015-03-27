@@ -3,6 +3,7 @@
 #include "connectionclosedexception.h"
 #include "encoding.h"
 #include "HInterpreter.h"
+#include "serverresponse.h"
 #include "protocol.h"
 #include <iostream>
 #include <sstream>
@@ -37,7 +38,8 @@ int main(int argc, char* argv[]) {
 	cout << "Write a command\nThe commands are:\n"<< HInterpreter::listCommands() << endl;
 	int nbr=0;
 	HInterpreter inter;
-	while (isConnected()) {
+	ServerResponse response;
+	while (c->isConnected()) {
 		try {
 			string input;
 			getline(cin,input);
@@ -48,9 +50,12 @@ int main(int argc, char* argv[]) {
 			cout<<endl;
 			cout << " " << msg << " is ..."<<endl;*/
 			if(msg== "Unvalid command"){
-				cout << "The command you have entered is unvalid. Please enter a new command."<<endl	
+				cout << "The command you have entered is unvalid. Please enter a new command."<<endl;	
 			}else{
 				writeString(msg,c);
+				string serverResponse;
+				serverResponse = readString(c);
+				cout << "response from server is: " << response.interpret(serverResponse) <<endl;
 			}
 		} catch (ConnectionClosedException&) {
 			cout << " no reply from server. Exiting." << endl;

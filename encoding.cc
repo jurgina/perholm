@@ -20,9 +20,11 @@ string readString(const shared_ptr<Connection>& conn){
 	string message;
 	char c = conn->read();
 	
-	while(c != Protocol::COM_END){
+	while(c != Protocol::COM_END && c != Protocol::ANS_END){
 		message += c;
-		cout << c << endl;
+		int a=c;
+		cout << "int: "<< a<< endl;
+		cout << "char: " <<c << endl;
 		c = conn->read();
 	}
 	
@@ -46,7 +48,7 @@ string convertNumberToNumP(int num){
 	string message;
 	message += Protocol::PAR_NUM;
 	vector<unsigned char> v = intToBytes(num);
-	for_each(v.begin(), v.end(), [&] (char c) {/*message += ' '*/; message += c;});
+	for_each(v.begin(), v.end(), [&] (char c) {/*message += ' ';*/ message += c;});
 	return message;
 }
 

@@ -9,7 +9,7 @@
 class memoryDB: public DataBase {
 public:
 	memoryDB(){
-	nbr=0;
+	nbr=1;
 }
 	std::vector<std::pair<int,std::string>> listNewsGroups();
 	bool createNewsGroup(std::string name);

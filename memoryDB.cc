@@ -6,13 +6,14 @@
 #include <cstddef>
 #include <vector>
 #include  <algorithm>
+#include <iostream>
 
 using namespace std;
 
 vector<pair<int,string>> memoryDB::listNewsGroups(){
 	vector<pair<int,string>> v;
 	for(auto n: ng){
-		//v.push_back(make_pair(n->id,n->name));
+		v.push_back(make_pair(n.id,n.name));
 	}
 	return v;   
 }
@@ -24,7 +25,7 @@ bool memoryDB::createNewsGroup(std::string name){
 		newsGroup n;
 		n.name=name;
 		n.id=nbr;
-		nbr++;
+		++nbr;
 		ng.push_back(n);
 		return true;
 	}
