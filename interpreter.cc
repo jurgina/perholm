@@ -15,12 +15,12 @@ string InterPreter::messageListNewsGroups(){
 	vector<pair<int,string>> newsgroups = db.listNewsGroups();
 	string response;
 	response += Protocol::ANS_LIST_NG;
-	  
 	if(newsgroups.size() != 0){
 		response += convertNumberToNumP(newsgroups.size());
-
+		
 		// response += ' ';
 		for(auto p: newsgroups){
+			int i=p.first;
 			response += convertNumberToNumP(p.first);
 			// response += ' ';
 			response += convertStringToStringP(p.second);

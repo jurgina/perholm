@@ -1,15 +1,15 @@
-#ifndef MEMORYDB_H
-#define MEMORYDB_H
+#ifndef DRIVEDB_H
+#define DRIVEDB_H
 #include "article.h" 
 #include "database.h"
 #include <map>
 #include <string>
 #include <vector>
 
-class memoryDB: public DataBase {
+class driveDB: public DataBase {
 public:
-	memoryDB(){
-	nbr=1;
+	driveDB(std::string p){
+	path=p;
 }
 	std::vector<std::pair<int,std::string>> listNewsGroups();
 	bool createNewsGroup(std::string name);
@@ -26,9 +26,8 @@ private:
 		std::vector<Article> arts;	
 		char c;
 	};
+	std::string path;
 
-	int nbr;
-	std::vector<newsGroup> ng;
 
 };
 
