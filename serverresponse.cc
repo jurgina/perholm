@@ -24,7 +24,7 @@ string ServerResponse::messageListNewsGroups(istringstream& message){
 			response += "\n";
 		}
 	} else {
-		response += "Sorry no newsgroups exists";
+		response += "No newsgroups exists";
 	}
 	return response;
 }
@@ -67,12 +67,13 @@ string ServerResponse::messageListArticles(istringstream& message){
 		response += "The articles are:\n"; 
 			for (int i = 0; i != nbrArticles; ++i) {
 				int num = convertNumPToNum(message);
-				response += num + ": ";
+				response += to_string(num);
+				response += ": ";
 				response += convertStringPToString(message);
 				response += "\n";
 			}
 		} else {
-		response += "Sorry no articles exists";
+		response += "No articles exists";
 		}
 	}else{
 		response += "Newsgroup does not exist";
