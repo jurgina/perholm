@@ -37,19 +37,21 @@ int main(int argc, char* argv[]) {
 	cout << "Write a command\nThe commands are:\n"<< HInterpreter::listCommands() << endl;
 	int nbr=0;
 	HInterpreter inter;
-	while (nbr!=10) {
+	while (isConnected()) {
 		try {
 			string input;
 			getline(cin,input);
 			string msg=inter.interpret(input);
-			//writeString(msg,c);
-			for(auto cc: msg){
+			/*for(auto cc: msg){
 				cout<<(int)cc<<' ';
 			}
 			cout<<endl;
-			cout << " " << msg << " is ..."<<endl;
-			
-			++nbr;
+			cout << " " << msg << " is ..."<<endl;*/
+			if(msg== "Unvalid command"){
+				cout << "The command you have entered is unvalid. Please enter a new command."<<endl	
+			}else{
+				writeString(msg,c);
+			}
 		} catch (ConnectionClosedException&) {
 			cout << " no reply from server. Exiting." << endl;
 			exit(1);
