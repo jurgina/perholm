@@ -55,14 +55,26 @@ string convertStringPToString(istringstream& message){
 	string s;
 	char c;
 	message >> c;
-	vector<unsigned char> v(4);
-	message >> v[0];
-	message >> v[1];
-	message >> v[2];
-	message >> v[3];
+	vector<unsigned char> v;
+	
+	message.get(c);
+	v.push_back(c); 
+	
+	message.get(c);
+	v.push_back(c); 
+	
+	message.get(c);
+	v.push_back(c); 
+	
+	message.get(c);
+	v.push_back(c); 
+
+	// message >> v[1];
+	// message >> v[2];
+	// message >> v[3];
 	int N = bytesToInt(v);
 	cout << "N " << N << endl;
-	for (char i = 0; i != N; ++i) {
+	for (int i = 0; i != N; ++i) {
 		message.get(c);
 		s += c;
 	}
@@ -90,7 +102,11 @@ vector<unsigned char> intToBytes(int num) {
 }
 
 int bytesToInt(vector<unsigned char>& v) {
-	int num = (v[0] << 24) | (v[1] << 16) | (v[2] << 8) | v[3];
-	// printf("%u %u %u %u\n", v[0], v[1], v[2], v[3]);
+	unsigned int a0 = v[0];
+	unsigned int a1 = v[1];
+	unsigned int a2 = v[2];
+	unsigned int a3 = v[3];
+	int num = (a0 << 24) | (a1 << 16) | (a2 << 8) | a3;
+	printf("%u %u %u %u\n", v[0], v[1], v[2], v[3]);
 	return num;
 }
