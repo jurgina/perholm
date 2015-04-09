@@ -79,11 +79,13 @@ Article memoryDB::getArticle(int groupID, int articleID) {
 	if(it==ng.end()){
 		throw 7331; 
 	}
-	auto it2= find_if((*it).arts.begin(), (*it).arts.end(),[articleID](Article& n){return n.getID()==articleID;});
-	if(it2==(*it).arts.end()){
+	newsGroup& group = *it;
+	auto it2= find_if(group.arts.begin(), group.arts.end(),[articleID](Article& n){return n.getID()==articleID;});
+	if(it2==group.arts.end()){
 		throw 1337; 
 	}
-	return *it2;
+	Article a = *it2;
+	return a;
 }
 
 
