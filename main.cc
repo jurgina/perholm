@@ -4,6 +4,7 @@
 #include "database.h"
 #include "interpreter.h"
 #include "memoryDB.h"
+#include "driveDB.h"
 #include "article.h"
 #include "connectionclosedexception.h"
 
@@ -17,7 +18,7 @@ using namespace std;
 
 
 int main(int argc, char* argv[]){
-	if (argc != 2) {
+	if (argc <3) {
 		cerr << "Usage: myserver port-number" << endl;
 		exit(1);
 	}
@@ -36,7 +37,18 @@ int main(int argc, char* argv[]){
 		cerr << "Server initialization error." << endl;
 		exit(1);
 	}
-	DataBase* db=new memoryDB();
+	DataBase* db;
+	string ar=argv[2];
+	if(ar=="drive"){
+		string path=argv[3];
+		
+		db=new driveDB(path);
+		cout<<"Running drive DB"<<endl;
+	}else{
+		db=new memoryDB();
+		cout<<"Running memory DB"<<endl;
+	}
+	
 	InterPreter inter(*db);
 	while (true) {
 		auto conn = server.waitForActivity();

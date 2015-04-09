@@ -8,9 +8,7 @@
 
 class driveDB: public DataBase {
 public:
-	driveDB(std::string p){
-	path=p;
-}
+	driveDB(std::string p):path(p){};
 	std::vector<std::pair<int,std::string>> listNewsGroups();
 	bool createNewsGroup(std::string name);
 	bool deleteNewsGroup(int groupID);
