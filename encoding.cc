@@ -7,6 +7,7 @@
 #include "encoding.h"
 #include "connection.h"
 #include "protocol.h"
+#include <stdio.h>
 
 using namespace std;
 
@@ -60,7 +61,7 @@ string convertStringPToString(istringstream& message){
 	message >> v[2];
 	message >> v[3];
 	int N = bytesToInt(v);
-	
+	cout << "N " << N << endl;
 	for (char i = 0; i != N; ++i) {
 		message.get(c);
 		s += c;
@@ -90,5 +91,6 @@ vector<unsigned char> intToBytes(int num) {
 
 int bytesToInt(vector<unsigned char>& v) {
 	int num = (v[0] << 24) | (v[1] << 16) | (v[2] << 8) | v[3];
+	// printf("%u %u %u %u\n", v[0], v[1], v[2], v[3]);
 	return num;
 }
