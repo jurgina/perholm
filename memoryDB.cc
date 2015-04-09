@@ -26,6 +26,7 @@ bool memoryDB::createNewsGroup(std::string name){
 		newsGroup n;
 		n.name=name;
 		n.id=nbr;
+		n.c=0;
 		++nbr;
 		ng.push_back(n);
 		return true;
@@ -52,8 +53,9 @@ std::vector<Article> memoryDB::listArticles(int groupID) {
 bool memoryDB::createArticle(int groupID, string title,string author, string text){
 	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
 	
-	Article a(author ,title , text, ++((*it).c)) ;
-	
+	Article a(author ,title , text,(*it).c ) ;
+	++((*it).c);
+	cout<<a.getID()<<endl;
 	(*it).arts.push_back(a);
 	
 	return true;
@@ -79,13 +81,11 @@ Article memoryDB::getArticle(int groupID, int articleID) {
 	if(it==ng.end()){
 		throw 7331; 
 	}
-	newsGroup& group = *it;
-	auto it2= find_if(group.arts.begin(), group.arts.end(),[articleID](Article& n){return n.getID()==articleID;});
-	if(it2==group.arts.end()){
+	auto it2= find_if((*it).arts.begin(), (*it).arts.end(),[articleID](Article& n){return n.getID()==articleID;});
+	if(it2==(*it).arts.end()){
 		throw 1337; 
 	}
-	Article a = *it2;
-	return a;
+	return *it2;
 }
 
 

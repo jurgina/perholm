@@ -24,7 +24,7 @@ private:
 		int id;
 		std::string name;
 		std::vector<Article> arts;	
-		char c;
+		int c;
 	};
 
 	int nbr;

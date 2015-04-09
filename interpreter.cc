@@ -89,7 +89,7 @@ string InterPreter::messageListArticles(istringstream& message){
 		response += convertNumberToNumP(articles.size());
 			  
 		for (size_t i = 0; i < articles.size();++i){
-			response += convertNumberToNumP(i);
+			response += convertNumberToNumP(articles[i].getID());
 		      
 		    response += convertStringToStringP(articles[i].getTitle());
 		}
