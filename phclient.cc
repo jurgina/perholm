@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	shared_ptr<Connection> c(new Connection(argv[1], 1234));
+	shared_ptr<Connection> c(new Connection(argv[1], port));
 	if (!c->isConnected()) {
 		cerr << "Connection attempt failed" << endl;
 		exit(1);
