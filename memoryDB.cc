@@ -5,8 +5,9 @@
 #include <string>
 #include <cstddef>
 #include <vector>
-#include  <algorithm>
+#include <algorithm>
 #include <iostream>
+#include <typeinfo>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ vector<pair<int,string>> memoryDB::listNewsGroups(){
 
 bool memoryDB::createNewsGroup(std::string name){
 	auto it= find_if(ng.begin(), ng.end(),[name](newsGroup& n){return n.name==name;});
-	
+
 	if(it==ng.end()){
 		newsGroup n;
 		n.name=name;
@@ -42,7 +43,8 @@ bool memoryDB::deleteNewsGroup(int groupID){
 std::vector<Article> memoryDB::listArticles(int groupID) {
 	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
 	
-	
+	if (it == ng.end())
+		throw 24; 
 	vector<Article> a=(*it).arts;
 	return a;
 }

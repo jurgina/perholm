@@ -18,7 +18,7 @@ string ServerResponse::messageListNewsGroups(istringstream& message){
 		response += "The newsgroups are:\n"; 
 		for (int i = 0; i != N; ++i) {
 			int num = convertNumPToNum(message);
-			response += to_string(num);
+			response += "" + num;
 			response += ": ";
 			response += convertStringPToString(message);
 			response += "\n";
@@ -67,7 +67,7 @@ string ServerResponse::messageListArticles(istringstream& message){
 		response += "The articles are:\n"; 
 			for (int i = 0; i != nbrArticles; ++i) {
 				int num = convertNumPToNum(message);
-				response += to_string(num);
+				response += "" + num;
 				response += ": ";
 				response += convertStringPToString(message);
 				response += "\n";

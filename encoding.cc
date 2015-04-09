@@ -60,8 +60,9 @@ string convertStringPToString(istringstream& message){
 	message >> v[2];
 	message >> v[3];
 	int N = bytesToInt(v);
+	
 	for (char i = 0; i != N; ++i) {
-		message >> c;
+		message.get(c);
 		s += c;
 	}
 	return s;

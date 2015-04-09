@@ -38,6 +38,7 @@ string InterPreter::messageListNewsGroups(){
 /* Returns the message from the create newsgroup command */
 string InterPreter::messageCreateNewsGroup(istringstream& message){
 	string title = convertStringPToString(message);
+	cout << title;
 	bool success = db.createNewsGroup(title);
 	string response;
 	response += Protocol::ANS_CREATE_NG;
@@ -79,24 +80,22 @@ string InterPreter::messageDeleteNewsGroup(istringstream& message){
 /* Returns the message from the list articles command */
 string InterPreter::messageListArticles(istringstream& message){
 	int c = convertNumPToNum(message);
-	vector<Article> articles = db.listArticles(c);
 	string response;
 	response += Protocol::ANS_LIST_ART;
-	  
-	if (articles.size() != 0) {		// If the newsgroup exists
+	try {			// If the newsgroup exists
+		vector<Article> articles = db.listArticles(c);
 		response += Protocol::ANS_ACK;
-		  
+			  
 		response += convertNumberToNumP(articles.size());
-		  
+			  
 		for (size_t i = 0; i < articles.size();++i){
 			response += convertNumberToNumP(i);
 		      
 		    response += convertStringToStringP(articles[i].getTitle());
-		      
 		}
-	} else {						// If the newsgroup doesn't exist
+		
+	} catch (exception e) {						// If the newsgroup doesn't exist
 		response += Protocol::ANS_NAK;
-		  
 		response += Protocol::ERR_NG_DOES_NOT_EXIST;
 	}
 	response += Protocol::ANS_END;
@@ -111,6 +110,9 @@ string InterPreter::messageCreateArticle(istringstream& message){
 	string author = convertStringPToString(message);
 	string text = convertStringPToString(message);
 	bool success = db.createArticle(groupID, title, author, text);
+	cout << title << endl;
+	cout << author << endl;
+	cout << text << endl;
 
 	//write response to client
 	response += Protocol::ANS_CREATE_ART;
@@ -168,6 +170,7 @@ string InterPreter::messageGetArticle(istringstream& message){
 	}
 	
 	response += Protocol::ANS_END;
+	cout << response << endl;
 	return response;
 }
 
