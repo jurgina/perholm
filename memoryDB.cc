@@ -52,7 +52,7 @@ std::vector<Article> memoryDB::listArticles(int groupID) {
 bool memoryDB::createArticle(int groupID, string title,string author, string text){
 	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
 	
-	Article a(author ,title , text, ++(*it).c) ;
+	Article a(author ,title , text, ++((*it).c)) ;
 	
 	(*it).arts.push_back(a);
 	
