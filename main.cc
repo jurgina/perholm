@@ -19,7 +19,7 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 	if (argc <3) {
-		cerr << "Usage: myserver port-number" << endl;
+		cerr << "Usage: myserver port-number flag path?" << endl;
 		exit(1);
 	}
 	

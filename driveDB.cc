@@ -19,12 +19,20 @@ vector<pair<int,string>> driveDB::listNewsGroups(){
 	vector<pair<int,string>> v;
 	while ( (entry = readdir(dir)) != NULL) {
 		string tmp=entry->d_name;
-		istringstream dirName (tmp);
-		string name;
-		dirName>>name;
-		int id;
-		dirName>>id;
-		v.push_back(make_pair(id,name));
+		
+		if(tmp[0]!='.'){		
+			size_t pos=tmp.find("_");
+			if(pos!=tmp.size()){
+				string name=tmp.substr(0,pos);
+				cout<<name<<endl;
+				string idT=tmp.substr(pos);
+				cout<<idT<<endl;
+				istringstream dirName (idT);
+				int id;
+				dirName>>id;
+				v.push_back(make_pair(id,name));
+			}
+		}
 	}
 	return v;   
 }
