@@ -155,18 +155,17 @@ string InterPreter::messageGetArticle(istringstream& message){
 	int articleID = convertNumPToNum(message);	
 	string response;
 	response += Protocol::ANS_GET_ART;
-	  
-
-	Article* article = db.getArticle(groupID,articleID);
-
-	if (article != nullptr) {	
+	  cout<<groupID<<endl;
+	cout<<articleID<<endl;
+	try{
+		Article article = db.getArticle(groupID,articleID);
 		response += Protocol::ANS_ACK;
-		response += convertStringToStringP(article->getTitle());
-		response += convertStringToStringP(article->getAuthor());
-		response += convertStringToStringP(article->getText());
-	} else {
+		response += convertStringToStringP(article.getTitle());
+		response += convertStringToStringP(article.getAuthor());
+		response += convertStringToStringP(article.getText());
+	}catch(int e){
+		cout<<e<<endl;
 		response += Protocol::ANS_NAK;
-		//fixa fall h'r!!!
 	}
 	
 	response += Protocol::ANS_END;

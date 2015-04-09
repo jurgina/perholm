@@ -17,7 +17,7 @@ public:
 	std::vector<Article> listArticles(int groupID);
 	bool createArticle(int groupID,std::string title,std::string author, std::string text);
 	int deleteArticle(int groupID, int articleID);
-	Article* getArticle(int groupID, int articleID);
+	Article getArticle(int groupID, int articleID);
 
 private:
 	struct newsGroup{

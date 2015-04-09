@@ -178,7 +178,7 @@ int driveDB::deleteArticle(int groupID, int articleID){
 	return 1;
 }
 
-Article* driveDB::getArticle(int groupID, int articleID) {
+Article driveDB::getArticle(int groupID, int articleID) {
 	DIR* dir=opendir(path.c_str());
 	dirent* entry; 
 	while ( (entry = readdir(dir)) != NULL) {
@@ -207,13 +207,13 @@ Article* driveDB::getArticle(int groupID, int articleID) {
 					while (myFile.get(c)){
 						text+= c;
 					}
-					Article* a=new Article(author, artName, text, artid);
+					Article a=Article(author, artName, text, artid);
 					return a;
 				}
 			}
 		}
 	}
-	return nullptr;
+	throw 1234;
 }
 
 

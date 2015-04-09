@@ -74,16 +74,16 @@ int memoryDB::deleteArticle(int groupID, int articleID){
 	return 2;
 }
 
-Article* memoryDB::getArticle(int groupID, int articleID) {
+Article memoryDB::getArticle(int groupID, int articleID) {
 	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
 	if(it==ng.end()){
-		return nullptr;
+		throw 7331; 
 	}
 	auto it2= find_if((*it).arts.begin(), (*it).arts.end(),[articleID](Article& n){return n.getID()==articleID;});
 	if(it2==(*it).arts.end()){
-		return nullptr;
+		throw 1337; 
 	}
-	return &(*it2);
+	return *it2;
 }
 
 

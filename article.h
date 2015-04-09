@@ -11,7 +11,7 @@ class Article {
 public:
 	Article(std::string authorIn ,std::string titleIn ,std::string textIn, char ID) : author(authorIn), title(titleIn), text(textIn), id(ID){};
 	Article(const Article& a) :  author(a.author), title(a.title), text(a.text), id(a.id) {};
-	char getID(){return id;};
+	int getID(){return id;};
 	std::string getAuthor(){return author;};
 	std::string getTitle(){return title;};
 	std::string getText(){return text;};
@@ -20,7 +20,7 @@ private:
 	std::string author;
 	std::string title;
 	std::string text;
-	char id;
+	int id;
 };
 
 #endif
