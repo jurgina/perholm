@@ -24,9 +24,7 @@ vector<pair<int,string>> driveDB::listNewsGroups(){
 			size_t pos=tmp.find("_");
 			if(pos!=tmp.size()){
 				string name=tmp.substr(0,pos);
-				cout<<name<<endl;
-				string idT=tmp.substr(pos);
-				cout<<idT<<endl;
+				string idT=tmp.substr(pos+1);
 				istringstream dirName (idT);
 				int id;
 				dirName>>id;

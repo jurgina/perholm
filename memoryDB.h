@@ -26,7 +26,6 @@ private:
 		std::vector<Article> arts;	
 		int c;
 	};
-
 	int nbr;
 	std::vector<newsGroup> ng;
 
