@@ -36,7 +36,9 @@ bool memoryDB::createNewsGroup(std::string name){
 
 bool memoryDB::deleteNewsGroup(int groupID){
 	auto it= find_if(ng.begin(), ng.end(),[groupID](newsGroup& n){return n.id==groupID;});
-	
+	if (it == ng.end()){
+		return false;
+	}
 	ng.erase(it);
 	return true;
 }
