@@ -119,7 +119,7 @@ std::vector<Article> driveDB::listArticles(int groupID) {
 					while ( (articelEnt = readdir(dir)) != NULL) {
 						
 						string tmp2=articelEnt->d_name;
-						if(tmp[0]!='.'){		
+						if(tmp2[0]!='.'){		
 							size_t pos=tmp2.find("_");
 							if(pos!=tmp2.size()){
 								string name=tmp2.substr(0,pos);
