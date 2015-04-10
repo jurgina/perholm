@@ -88,7 +88,7 @@ bool driveDB::deleteNewsGroup(int groupID){
 				for(auto art:a){
 					deleteArticle(groupID, art.getID());
 				}
-				//rmdir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				remove((path + "/" + tmp).c_str());
 				return true;
 			}
 			}
@@ -184,7 +184,7 @@ bool driveDB::createArticle(int groupID, string title,string author, string text
 						 itr=find(v.begin(),v.end(),i);
 					}
 					ofstream myfile;
-					myfile.open (title+"_"+to_string(i));
+					myfile.open (path + "/"+ tmp + "/" + title+"_"+to_string(i));
 					myfile << author<<"\n";
 					myfile<<text;
 					myfile.close();
@@ -212,16 +212,21 @@ int driveDB::deleteArticle(int groupID, int articleID){
 			dirent* articelEnt; 
 			while ( (articelEnt = readdir(dir)) != NULL) {
 				string tmp2=articelEnt->d_name;
-				istringstream dirName (tmp2);
-				string artName;
-				dirName>>artName;
-				int artid;
-				dirName>>artid;
-				if(articleID==artid){
-					
-					remove((path+"/"+tmp+"/"+tmp2).c_str());
-					return 2;
+				if(tmp[0]!='.'){		
+					size_t pos=tmp2.find("_");
+					if(pos!=tmp2.size()){
+						string name=tmp2.substr(0,pos);
+						string idT=tmp2.substr(pos+1);
+						istringstream artName (idT);
+						int id;
+						dirName>>id;
+						if(articleID==id){
+							remove((path+"/"+tmp+"/"+tmp2).c_str());
+							return 2;
+						}
+					}
 				}
+				
 			}
 			return 0;
 		}
@@ -244,23 +249,29 @@ Article driveDB::getArticle(int groupID, int articleID) {
 			dirent* articelEnt; 
 			while ( (articelEnt = readdir(dir)) != NULL) {
 				string tmp2=articelEnt->d_name;
-				istringstream dirName (tmp2);
-				string artName;
-				dirName>>artName;
-				int artid;
-				dirName>>artid;
-				if(articleID==artid){
-					ifstream myFile(tmp2);
-					string author;
-					myFile>>author;
-					string text;
-					char c;
-					while (myFile.get(c)){
-						text+= c;
+				if(tmp[0]!='.'){		
+					size_t pos=tmp2.find("_");
+					if(pos!=tmp2.size()){
+						string name=tmp2.substr(0,pos);
+						string idT=tmp2.substr(pos+1);
+						istringstream artName (idT);
+						int artid;
+						dirName>>artid;
+						if(articleID==artid){
+							ifstream myFile(tmp2);
+							string author;
+							myFile>>author;
+							string text;
+							char c;
+							while (myFile.get(c)){
+								text+= c;
+							}
+							Article a=Article(author, name, text, artid);
+							return a;
+						}
 					}
-					Article a=Article(author, artName, text, artid);
-					return a;
 				}
+				
 			}
 		}
 	}
