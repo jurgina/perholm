@@ -22,6 +22,8 @@ PROGS = main phclient
 
 all: $(PROGS) #libclientserver.a
 
+install: mv $(PROGS) ../bin/
+
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
 

@@ -33,11 +33,10 @@ string readString(const shared_ptr<Connection>& conn){
 string convertStringToStringP(const string& s){
 	string message;
 	message += Protocol::PAR_STRING;
-	// message += ' ';
+
 	vector<unsigned char> v = intToBytes(s.size());
 	for_each(v.begin(), v.end(), [&] (char c) {message += c;});
 	for (char c: s){
-		// message += ' ';
 		message += c;
 	}
 	return message;
@@ -47,7 +46,7 @@ string convertNumberToNumP(int num){
 	string message;
 	message += Protocol::PAR_NUM;
 	vector<unsigned char> v = intToBytes(num);
-	for_each(v.begin(), v.end(), [&] (char c) {/*message += ' ';*/ message += c;});
+	for_each(v.begin(), v.end(), [&] (char c) { message += c;});
 	return message;
 }
 
@@ -69,11 +68,8 @@ string convertStringPToString(istringstream& message){
 	message.get(c);
 	v.push_back(c); 
 
-	// message >> v[1];
-	// message >> v[2];
-	// message >> v[3];
 	int N = bytesToInt(v);
-	cout << "N " << N << endl;
+
 	for (int i = 0; i != N; ++i) {
 		message.get(c);
 		s += c;
@@ -107,6 +103,6 @@ int bytesToInt(vector<unsigned char>& v) {
 	unsigned int a2 = v[2];
 	unsigned int a3 = v[3];
 	int num = (a0 << 24) | (a1 << 16) | (a2 << 8) | a3;
-	printf("%u %u %u %u\n", v[0], v[1], v[2], v[3]);
+
 	return num;
 }

@@ -110,10 +110,6 @@ string InterPreter::messageCreateArticle(istringstream& message){
 	string author = convertStringPToString(message);
 	string text = convertStringPToString(message);
 	bool success = db.createArticle(groupID, title, author, text);
-	cout << groupID << " groupID" << endl;
-	cout << title << " title" << endl;
-	cout << author << " author" << endl;
-	cout << text << " text" << endl;
 
 	//write response to client
 	response += Protocol::ANS_CREATE_ART;
