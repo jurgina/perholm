@@ -171,7 +171,7 @@ bool driveDB::createArticle(int groupID, string title,string author, string text
 								string idT=tmp2.substr(pos+1);
 								istringstream artName (idT);
 								int id;
-								dirName>>id;
+								artName>>id;
 								v.push_back(id);
 							}
 						}
@@ -180,10 +180,13 @@ bool driveDB::createArticle(int groupID, string title,string author, string text
 					}
 					int i=0;
 					auto itr=find(v.begin(),v.end(),i);
+					cout<<i<<endl;
 					while(itr!=v.end()){
 						++i;
 						 itr=find(v.begin(),v.end(),i);
 					}
+					cout<<"avelible id is:"<<endl;
+					cout<<i<<endl;
 					ofstream myfile;
 					std::transform (title.begin(), title.end(), title.begin(), [] (char c) {if(c == ' '){ return ':';} return c;});
 					myfile.open (path + "/"+ tmp + "/" + title+"_"+to_string(i));
@@ -204,36 +207,44 @@ int driveDB::deleteArticle(int groupID, int articleID){
 	dirent* entry; 
 	while ( (entry = readdir(dir)) != NULL) {
 		string tmp=entry->d_name;
-		istringstream dirName (tmp);
-		string name;
-		dirName>>name;
-		int id;
-		dirName>>id;
-		if(id==groupID){
-			DIR* dir=opendir((path+"/"+tmp).c_str());
-			dirent* articelEnt; 
-			while ( (articelEnt = readdir(dir)) != NULL) {
-				string tmp2=articelEnt->d_name;
-				if(tmp2[0]!='.'){		
-					size_t pos=tmp2.find("_");
-					if(pos!=tmp2.size()){
-						string name=tmp2.substr(0,pos);
-						string idT=tmp2.substr(pos+1);
-						istringstream artName (idT);
-						int id;
-						dirName>>id;
-						cout<<"id for "<<tmp2<<"  "<<idT<<endl;
-						if(articleID==id){
-							cout<<"id match"<<articleID<<endl;
-							remove((path+"/"+tmp+"/"+tmp2).c_str());
-							return 2;
+		if(tmp[0]!='.'){		
+			size_t pos=tmp.find("_");
+			if(pos!=tmp.size()){
+				string name=tmp.substr(0,pos);
+				string idT=tmp.substr(pos+1);
+				istringstream dirName (idT);
+				int id;
+				dirName>>id;
+		
+		
+				if(id==groupID){
+					DIR* dir=opendir((path+"/"+tmp).c_str());
+					dirent* articelEnt; 
+					while ( (articelEnt = readdir(dir)) != NULL) {
+						string tmp2=articelEnt->d_name;
+						if(tmp2[0]!='.'){		
+							size_t pos=tmp2.find("_");
+							if(pos!=tmp2.size()){
+								string name=tmp2.substr(0,pos);
+								string idT=tmp2.substr(pos+1);
+								istringstream artName (idT);
+								int id;
+								artName>>id;
+								cout<<"id for "<<tmp2<<"  "<<idT<<" "<<articleID<<endl;
+								if(articleID==id){
+									cout<<"id match"<<articleID<<endl;
+									remove((path+"/"+tmp+"/"+tmp2).c_str());
+									return 2;
+								}
+							}
 						}
+						
 					}
-				}
-				
+					return 0;
+				}	
 			}
-			return 0;
 		}
+		
 	}
 	return 1;
 }
