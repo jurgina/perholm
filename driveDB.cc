@@ -113,6 +113,11 @@ std::vector<Article> driveDB::listArticles(int groupID) {
 				istringstream dirName (idT);
 				int id;
 				dirName>>id;
+				cout<<"hej"<<id<<endl;
+				
+				cout<<"hej igen "<<groupID<<endl;
+				bool m =id==groupID;
+				cout<<m<<endl;
 				if(id==groupID){
 					DIR* dir=opendir((path+"/"+tmp).c_str());
 					dirent* articelEnt; 
@@ -130,17 +135,22 @@ std::vector<Article> driveDB::listArticles(int groupID) {
 								string m="";
 								std::transform (name.begin(), name.end(), name.begin(), [] (char c) {if(c == ':'){ return ' ';} return c;});
 								Article art(m,name,m,id);
+								cout<<name<<"denna borde inte finnas"<<endl;
 								a.push_back(art);
+								
 							}
 						}
 						
 					}
+					sort(a.begin(),a.end(),[](const Article& a1, const Article& a2){return a1.getID() < a2.getID();});
+					return a;
 				}
 			}
 		}
 		
 	}
-	return a;
+	throw 1337;
+	
 }
 
 bool driveDB::createArticle(int groupID, string title,string author, string text){
@@ -159,7 +169,7 @@ bool driveDB::createArticle(int groupID, string title,string author, string text
 				int id;
 				dirName>>id;
 				if(id==groupID){
-					DIR* dir2=opendir(path.c_str());
+					DIR* dir2=opendir((path+"/"+tmp).c_str());
 					vector<int> v;
 					dirent* articelEnt; 
 					while ( (articelEnt = readdir(dir2)) != NULL) {
@@ -180,13 +190,10 @@ bool driveDB::createArticle(int groupID, string title,string author, string text
 					}
 					int i=0;
 					auto itr=find(v.begin(),v.end(),i);
-					cout<<i<<endl;
 					while(itr!=v.end()){
 						++i;
 						 itr=find(v.begin(),v.end(),i);
 					}
-					cout<<"avelible id is:"<<endl;
-					cout<<i<<endl;
 					ofstream myfile;
 					std::transform (title.begin(), title.end(), title.begin(), [] (char c) {if(c == ' '){ return ':';} return c;});
 					myfile.open (path + "/"+ tmp + "/" + title+"_"+to_string(i));
@@ -297,6 +304,7 @@ Article driveDB::getArticle(int groupID, int articleID) {
 						}
 						
 					}
+					throw 1337; 
 				}
 			}
 		}
@@ -307,7 +315,7 @@ Article driveDB::getArticle(int groupID, int articleID) {
 		
 		
 	}
-	throw 1234;
+	throw 7331; 
 }
 
 

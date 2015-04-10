@@ -94,7 +94,7 @@ string InterPreter::messageListArticles(istringstream& message){
 		    response += convertStringToStringP(articles[i].getTitle());
 		}
 		
-	} catch (exception e) {						// If the newsgroup doesn't exist
+	} catch (int e) {						// If the newsgroup doesn't exist
 		response += Protocol::ANS_NAK;
 		response += Protocol::ERR_NG_DOES_NOT_EXIST;
 	}
@@ -162,7 +162,13 @@ string InterPreter::messageGetArticle(istringstream& message){
 		response += convertStringToStringP(article.getText());
 	}catch(int e){
 		cout<<e<<endl;
+		
 		response += Protocol::ANS_NAK;
+		if(e==1337){
+			response += Protocol::ERR_ART_DOES_NOT_EXIST;
+		}else{
+			response += Protocol::ERR_NG_DOES_NOT_EXIST;
+		}
 	}
 	
 	response += Protocol::ANS_END;
