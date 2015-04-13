@@ -18,7 +18,7 @@ LDFLAGS = -g
 #CPPFLAGS =  -stdlib=libc++
 #CXXFLAGS += -stdlib=libc++
 
-PROGS = main phclient
+PROGS = newsserver client
 
 all: $(PROGS) #libclientserver.a
 
@@ -27,8 +27,8 @@ install: mv $(PROGS) ../bin/
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
 
-main: memoryDB.o driveDB.o interpreter.o connection.o server.o encoding.o
-phclient: interpreter.o connection.o server.o encoding.o HInterpreter.o serverresponse.o
+newsserver: memoryDB.o driveDB.o interpreter.o connection.o server.o encoding.o
+client: interpreter.o connection.o server.o encoding.o HInterpreter.o serverresponse.o
 libclientserver.a: connection.o server.o
 	ar rv libclientserver.a  connection.o server.o
 	ranlib libclientserver.a
