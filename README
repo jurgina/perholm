@@ -23,4 +23,4 @@
 	2. Type "./client ip port"
 		where ip is which ipadress it should connect to (localhost is supported)
 		port is which port it should communicate on
-	3. Type the commande you want to write (type help to see the commands again)
+	3. Type the command you want to write (type help to see the commands again)
