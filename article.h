@@ -11,10 +11,10 @@ class Article {
 public:
 	Article(std::string authorIn ,std::string titleIn ,std::string textIn, int ID) : author(authorIn), title(titleIn), text(textIn), id(ID){};
 	Article(const Article& a) :  author(a.author), title(a.title), text(a.text), id(a.id) {};
-	int getID(){return id;};
-	std::string getAuthor(){return author;};
-	std::string getTitle(){return title;};
-	std::string getText(){return text;};
+	int getID() const {return id;};
+	std::string getAuthor() const {return author;};
+	std::string getTitle() const {return title;};
+	std::string getText() const {return text;};
 	
 private:
 	std::string author;

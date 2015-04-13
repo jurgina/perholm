@@ -1,0 +1,26 @@
+# How to compile the programs:
+	1. Open a terminal and move to the src-folder
+	2. Type "make all" in the terminal
+	3. Now are the programs compiled
+
+# How to install the programs:
+	1. Open a terminal and move to the src-folder
+	2. Type "make install" in the terminal
+	3. Now are the executables in the bin-folder
+
+# How to run the server:
+	1. Open a terminal and move to the bin-folder
+	2. Type "./newsserver port-number flag path" where 
+		port-number is which port the server will listen on
+		flag is "drive" if we want to run the version that saves the database to disk,
+			to run the version with the database to memory write something else
+		path is the path to where we want to save the database if we are using the drive-version
+			of the program, if we are running the memory version this argument does nothing
+	3. Now the server is running
+
+# How to run the client:
+	1. Open a terminal and move to the bin-folder
+	2. Type "./client ip port"
+		where ip is which ipadress it should connect to (localhost is supported)
+		port is which port it should communicate on
+	3. Type the commande you want to write (type help to see the commands again)
