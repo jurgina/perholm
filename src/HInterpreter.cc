@@ -74,15 +74,20 @@ string HInterpreter::messageCreateArticle(istringstream& message){
 	response+=convertStringToStringP(title);
 	
 	string author;
-	if(!(message>>author)){
-		return "Unvalid format of author. The author of an article should be a word.";
+	string stmp;
+	while(message>>stmp){
+		author+=stmp+" ";
+		
 	}
 	response+=convertStringToStringP(author);
+	
 	string text;
-	char ctmp;
-	while(message>>ctmp){
-		text+=ctmp;
+	string input;
+	while(getline(cin,input)&&input!="-quit"){
+		text+=input;
+		text+="\n";
 	}
+	
 	response+=convertStringToStringP(text);
 	response +=  Protocol::COM_END;
 	return response;
@@ -137,7 +142,7 @@ string HInterpreter::messageHelp(istringstream& message){
 	}else if(command=="list_a"){
 		return "Help  \n list_a ngID \n int ngID - newsgroup ID \n Lists all of the articles in the newsgroup with newsgroup ID ngID if it exists.";
 	}else if(command=="create_a"){
-		return "Help  \n create_a ngID titleA authorA textA \n int ngID - newsgroup ID \n string titleA - article title  \n string authorA - article author  \n string textA - contents of article \n Creates an article in the newsgroup with newsgroup ID ngID, title titleA author authorA and contents textA.";
+		return "Help  \n create_a ngID titleA authorA \n Here you write the text of the article and finsh with \"-quit\" \n int ngID - newsgroup ID \n string titleA - article title  \n string authorA - article author \n Creates an article in the newsgroup with newsgroup ID ngID, title titleA and author authorA.";
 	}else if(command=="delete_a"){
 		return "Help  \n delete_a ngID aID \n int ngID - newsgroup ID \n int ngID - newsgroup ID \n Deletes the article with newsgroup ID ngID and article ID aID.";
 	}else if(command=="get_a"){
@@ -179,6 +184,8 @@ string HInterpreter::listCommands() {
 	s += "create_a - Create article\n";
 	s += "delete_a - Delete article\n";	
 	s += "get_a - Displays article\n";
+	s += "help command- prints help about command, where command is one of the above\n";
 	s += "quit - Quit the program\n";
+	
 	return s;
 }

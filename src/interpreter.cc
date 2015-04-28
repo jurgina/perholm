@@ -20,7 +20,6 @@ string InterPreter::messageListNewsGroups(){
 		
 		// response += ' ';
 		for(auto p: newsgroups){
-			int i=p.first;
 			response += convertNumberToNumP(p.first);
 			// response += ' ';
 			response += convertStringToStringP(p.second);

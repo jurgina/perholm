@@ -1,6 +1,11 @@
 /* myserver.cc: sample server program */
 #include "server.h"
 #include "connection.h"
+#include "database.h"
+#include "interpreter.h"
+#include "memoryDB.h"
+#include "driveDB.h"
+#include "article.h"
 #include "connectionclosedexception.h"
 
 #include <memory>
@@ -11,36 +16,17 @@
 
 using namespace std;
 
-/*
- * Read an integer from a client.
- */
-int readNumber(const shared_ptr<Connection>& conn) {
-	unsigned char byte1 = conn->read();
-	unsigned char byte2 = conn->read();
-	unsigned char byte3 = conn->read();
-	unsigned char byte4 = conn->read();
-	return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
-}
-
-/*
- * Send a string to a client.
- */
-void writeString(const shared_ptr<Connection>& conn, const string& s) {
-	for (char c : s) {
-		conn->write(c);
-	}
-	conn->write('$');
-}
 
 int main(int argc, char* argv[]){
-	if (argc != 2) {
-		cerr << "Usage: myserver port-number" << endl;
+	if (argc <3) {
+		cerr << "Usage: myserver port-number flag path?" << endl;
 		exit(1);
 	}
 	
 	int port = -1;
 	try {
-		port = stoi(argv[1]);
+		port = 1235;
+		//port = stoi(argv[1]);
 	} catch (exception& e) {
 		cerr << "Wrong port number. " << e.what() << endl;
 		exit(1);
@@ -51,21 +37,27 @@ int main(int argc, char* argv[]){
 		cerr << "Server initialization error." << endl;
 		exit(1);
 	}
+	DataBase* db;
+	string ar=argv[2];
+	if(ar=="drive"){
+		string path=argv[3];
+		
+		db=new driveDB(path);
+		cout<<"Running drive DB"<<endl;
+	}else{
+		db=new memoryDB();
+		cout<<"Running memory DB"<<endl;
+	}
 	
+	InterPreter inter(*db);
 	while (true) {
 		auto conn = server.waitForActivity();
 		if (conn != nullptr) {
 			try {
-				int nbr = readNumber(conn);
-				string result;
-				if (nbr > 0) {
-					result = "positive";
-				} else if (nbr == 0) {
-					result = "zero";
-				} else {
-					result = "negative";
-				}
-				writeString(conn, result);
+				cout<<"Reading"<<endl;
+				string msg=readString(conn);
+				string out=inter.interpret(msg);
+				writeString(out,conn);
 			} catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);
 				cout << "Client closed connection" << endl;
