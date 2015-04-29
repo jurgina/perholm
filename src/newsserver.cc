@@ -25,8 +25,7 @@ int main(int argc, char* argv[]){
 	
 	int port = -1;
 	try {
-		port = 1235;
-		//port = stoi(argv[1]);
+		port = stoi(argv[1]);
 	} catch (exception& e) {
 		cerr << "Wrong port number. " << e.what() << endl;
 		exit(1);
@@ -54,7 +53,6 @@ int main(int argc, char* argv[]){
 		auto conn = server.waitForActivity();
 		if (conn != nullptr) {
 			try {
-				cout<<"Reading"<<endl;
 				string msg=readString(conn);
 				string out=inter.interpret(msg);
 				writeString(out,conn);

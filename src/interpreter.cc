@@ -37,7 +37,6 @@ string InterPreter::messageListNewsGroups(){
 /* Returns the message from the create newsgroup command */
 string InterPreter::messageCreateNewsGroup(istringstream& message){
 	string title = convertStringPToString(message);
-	cout << title;
 	bool success = db.createNewsGroup(title);
 	string response;
 	response += Protocol::ANS_CREATE_NG;
@@ -151,8 +150,6 @@ string InterPreter::messageGetArticle(istringstream& message){
 	int articleID = convertNumPToNum(message);	
 	string response;
 	response += Protocol::ANS_GET_ART;
-	  cout<<groupID<<endl;
-	cout<<articleID<<endl;
 	try{
 		Article article = db.getArticle(groupID,articleID);
 		response += Protocol::ANS_ACK;
@@ -160,7 +157,6 @@ string InterPreter::messageGetArticle(istringstream& message){
 		response += convertStringToStringP(article.getAuthor());
 		response += convertStringToStringP(article.getText());
 	}catch(int e){
-		cout<<e<<endl;
 		
 		response += Protocol::ANS_NAK;
 		if(e==1337){
@@ -171,7 +167,6 @@ string InterPreter::messageGetArticle(istringstream& message){
 	}
 	
 	response += Protocol::ANS_END;
-	cout << response << endl;
 	return response;
 }
 
